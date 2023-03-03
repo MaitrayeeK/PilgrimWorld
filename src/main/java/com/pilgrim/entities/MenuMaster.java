@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "menu_master")
@@ -62,7 +62,7 @@ public class MenuMaster implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menu")
     private Collection<UserrightsMaster> userrightsMasterCollection;
 
     public MenuMaster() {
@@ -119,6 +119,7 @@ public class MenuMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    @JsonbTransient
     public Collection<UserrightsMaster> getUserrightsMasterCollection() {
         return userrightsMasterCollection;
     }
@@ -151,5 +152,5 @@ public class MenuMaster implements Serializable {
     public String toString() {
         return "entities.MenuMaster[ menuId=" + menuId + " ]";
     }
-
+    
 }

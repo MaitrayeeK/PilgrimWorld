@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "pilgrim_master")
@@ -75,26 +75,31 @@ public class PilgrimMaster implements Serializable {
     private Date updatedDate;
     @JoinColumn(name = "state_id", referencedColumnName = "state_id")
     @ManyToOne(optional = false)
-    private StateMaster stateId;
+    private StateMaster state;
     @JoinColumn(name = "city_id", referencedColumnName = "city_id")
     @ManyToOne(optional = false)
-    private CityMaster cityId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrimId")
+    private CityMaster city;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne(optional = false)
+    private UserMaster user;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrim")
     private Collection<PilgrimTimeslots> pilgrimTimeslotsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrimId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrim")
     private Collection<AdvertisementMaster> advertisementMasterCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrimId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrim")
     private Collection<FeedbackMaster> feedbackMasterCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrimId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrim")
     private Collection<CommissionMaster> commissionMasterCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrimId")
-    private Collection<PilgrimImaged> pilgrimImagedCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrimId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrim")
     private Collection<PilgrimTickets> pilgrimTicketsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrimId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrim")
+    private Collection<PaymentMaster> paymentMasterCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrim")
     private Collection<PilgrimRooms> pilgrimRoomsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrimId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrim")
     private Collection<BookingMaster> bookingMasterCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrim")
+    private Collection<PilgrimImages> pilgrimImagesCollection;
 
     public PilgrimMaster() {
     }
@@ -160,22 +165,31 @@ public class PilgrimMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public StateMaster getStateId() {
-        return stateId;
+    public StateMaster getState() {
+        return state;
     }
 
-    public void setStateId(StateMaster stateId) {
-        this.stateId = stateId;
+    public void setState(StateMaster stateId) {
+        this.state = stateId;
     }
 
-    public CityMaster getCityId() {
-        return cityId;
+    public CityMaster getCity() {
+        return city;
     }
 
-    public void setCityId(CityMaster cityId) {
-        this.cityId = cityId;
+    public void setCity(CityMaster cityId) {
+        this.city = cityId;
     }
 
+    public UserMaster getUser() {
+        return user;
+    }
+
+    public void setUser(UserMaster userId) {
+        this.user = userId;
+    }
+
+    @JsonbTransient
     public Collection<PilgrimTimeslots> getPilgrimTimeslotsCollection() {
         return pilgrimTimeslotsCollection;
     }
@@ -184,6 +198,7 @@ public class PilgrimMaster implements Serializable {
         this.pilgrimTimeslotsCollection = pilgrimTimeslotsCollection;
     }
 
+    @JsonbTransient
     public Collection<AdvertisementMaster> getAdvertisementMasterCollection() {
         return advertisementMasterCollection;
     }
@@ -192,6 +207,7 @@ public class PilgrimMaster implements Serializable {
         this.advertisementMasterCollection = advertisementMasterCollection;
     }
 
+    @JsonbTransient
     public Collection<FeedbackMaster> getFeedbackMasterCollection() {
         return feedbackMasterCollection;
     }
@@ -200,6 +216,7 @@ public class PilgrimMaster implements Serializable {
         this.feedbackMasterCollection = feedbackMasterCollection;
     }
 
+    @JsonbTransient
     public Collection<CommissionMaster> getCommissionMasterCollection() {
         return commissionMasterCollection;
     }
@@ -208,14 +225,7 @@ public class PilgrimMaster implements Serializable {
         this.commissionMasterCollection = commissionMasterCollection;
     }
 
-    public Collection<PilgrimImaged> getPilgrimImagedCollection() {
-        return pilgrimImagedCollection;
-    }
-
-    public void setPilgrimImagedCollection(Collection<PilgrimImaged> pilgrimImagedCollection) {
-        this.pilgrimImagedCollection = pilgrimImagedCollection;
-    }
-
+    @JsonbTransient
     public Collection<PilgrimTickets> getPilgrimTicketsCollection() {
         return pilgrimTicketsCollection;
     }
@@ -224,6 +234,16 @@ public class PilgrimMaster implements Serializable {
         this.pilgrimTicketsCollection = pilgrimTicketsCollection;
     }
 
+    @JsonbTransient
+    public Collection<PaymentMaster> getPaymentMasterCollection() {
+        return paymentMasterCollection;
+    }
+
+    public void setPaymentMasterCollection(Collection<PaymentMaster> paymentMasterCollection) {
+        this.paymentMasterCollection = paymentMasterCollection;
+    }
+
+    @JsonbTransient
     public Collection<PilgrimRooms> getPilgrimRoomsCollection() {
         return pilgrimRoomsCollection;
     }
@@ -232,12 +252,22 @@ public class PilgrimMaster implements Serializable {
         this.pilgrimRoomsCollection = pilgrimRoomsCollection;
     }
 
+    @JsonbTransient
     public Collection<BookingMaster> getBookingMasterCollection() {
         return bookingMasterCollection;
     }
 
     public void setBookingMasterCollection(Collection<BookingMaster> bookingMasterCollection) {
         this.bookingMasterCollection = bookingMasterCollection;
+    }
+
+    @JsonbTransient
+    public Collection<PilgrimImages> getPilgrimImagesCollection() {
+        return pilgrimImagesCollection;
+    }
+
+    public void setPilgrimImagesCollection(Collection<PilgrimImages> pilgrimImagesCollection) {
+        this.pilgrimImagesCollection = pilgrimImagesCollection;
     }
 
     @Override
@@ -264,5 +294,5 @@ public class PilgrimMaster implements Serializable {
     public String toString() {
         return "entities.PilgrimMaster[ pilgrimId=" + pilgrimId + " ]";
     }
-
+    
 }

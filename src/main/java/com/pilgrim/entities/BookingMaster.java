@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "booking_master")
@@ -64,23 +64,23 @@ public class BookingMaster implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bookingId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
     private Collection<PaymentMaster> paymentMasterCollection;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private UserMaster userId;
+    private UserMaster user;
     @JoinColumn(name = "discount_id", referencedColumnName = "discount_id")
     @ManyToOne(optional = false)
-    private DiscountMaster discountId;
+    private DiscountMaster discount;
     @JoinColumn(name = "pilgrim_id", referencedColumnName = "pilgrim_id")
     @ManyToOne(optional = false)
-    private PilgrimMaster pilgrimId;
+    private PilgrimMaster pilgrim;
     @JoinColumn(name = "ticket_id", referencedColumnName = "ticket_id")
     @ManyToOne(optional = false)
-    private PilgrimTickets ticketId;
+    private PilgrimTickets ticket;
     @JoinColumn(name = "timeslots_details_id", referencedColumnName = "timeslots_details_id")
     @ManyToOne(optional = false)
-    private PilgrimTimeslotsDetails timeslotsDetailsId;
+    private PilgrimTimeslotsDetails timeslotsDetails;
 
     public BookingMaster() {
     }
@@ -137,6 +137,7 @@ public class BookingMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    @JsonbTransient
     public Collection<PaymentMaster> getPaymentMasterCollection() {
         return paymentMasterCollection;
     }
@@ -145,44 +146,44 @@ public class BookingMaster implements Serializable {
         this.paymentMasterCollection = paymentMasterCollection;
     }
 
-    public UserMaster getUserId() {
-        return userId;
+    public UserMaster getUser() {
+        return user;
     }
 
-    public void setUserId(UserMaster userId) {
-        this.userId = userId;
+    public void setUser(UserMaster userId) {
+        this.user = userId;
     }
 
-    public DiscountMaster getDiscountId() {
-        return discountId;
+    public DiscountMaster getDiscount() {
+        return discount;
     }
 
-    public void setDiscountId(DiscountMaster discountId) {
-        this.discountId = discountId;
+    public void setDiscount(DiscountMaster discountId) {
+        this.discount = discountId;
     }
 
-    public PilgrimMaster getPilgrimId() {
-        return pilgrimId;
+    public PilgrimMaster getPilgrim() {
+        return pilgrim;
     }
 
-    public void setPilgrimId(PilgrimMaster pilgrimId) {
-        this.pilgrimId = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrimId) {
+        this.pilgrim = pilgrimId;
     }
 
-    public PilgrimTickets getTicketId() {
-        return ticketId;
+    public PilgrimTickets getTicket() {
+        return ticket;
     }
 
-    public void setTicketId(PilgrimTickets ticketId) {
-        this.ticketId = ticketId;
+    public void setTicket(PilgrimTickets ticketId) {
+        this.ticket = ticketId;
     }
 
-    public PilgrimTimeslotsDetails getTimeslotsDetailsId() {
-        return timeslotsDetailsId;
+    public PilgrimTimeslotsDetails getTimeslotsDetails() {
+        return timeslotsDetails;
     }
 
-    public void setTimeslotsDetailsId(PilgrimTimeslotsDetails timeslotsDetailsId) {
-        this.timeslotsDetailsId = timeslotsDetailsId;
+    public void setTimeslotsDetails(PilgrimTimeslotsDetails timeslotsDetailsId) {
+        this.timeslotsDetails = timeslotsDetailsId;
     }
 
     @Override
@@ -209,5 +210,5 @@ public class BookingMaster implements Serializable {
     public String toString() {
         return "entities.BookingMaster[ bookingId=" + bookingId + " ]";
     }
-
+    
 }

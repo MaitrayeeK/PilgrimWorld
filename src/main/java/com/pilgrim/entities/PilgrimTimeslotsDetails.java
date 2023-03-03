@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "pilgrim_timeslots_details")
@@ -79,10 +79,10 @@ public class PilgrimTimeslotsDetails implements Serializable {
     private Date updatedDate;
     @JoinColumn(name = "timeslots_id", referencedColumnName = "timeslots_id")
     @ManyToOne(optional = false)
-    private PilgrimTimeslots timeslotsId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "timeslotsDetailsId")
+    private PilgrimTimeslots timeslots;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "timeslotsDetails")
     private Collection<PilgrimTickets> pilgrimTicketsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "timeslotsDetailsId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "timeslotsDetails")
     private Collection<BookingMaster> bookingMasterCollection;
 
     public PilgrimTimeslotsDetails() {
@@ -164,14 +164,15 @@ public class PilgrimTimeslotsDetails implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public PilgrimTimeslots getTimeslotsId() {
-        return timeslotsId;
+    public PilgrimTimeslots getTimeslots() {
+        return timeslots;
     }
 
-    public void setTimeslotsId(PilgrimTimeslots timeslotsId) {
-        this.timeslotsId = timeslotsId;
+    public void setTimeslots(PilgrimTimeslots timeslotsId) {
+        this.timeslots = timeslotsId;
     }
 
+    @JsonbTransient
     public Collection<PilgrimTickets> getPilgrimTicketsCollection() {
         return pilgrimTicketsCollection;
     }
@@ -180,6 +181,7 @@ public class PilgrimTimeslotsDetails implements Serializable {
         this.pilgrimTicketsCollection = pilgrimTicketsCollection;
     }
 
+    @JsonbTransient
     public Collection<BookingMaster> getBookingMasterCollection() {
         return bookingMasterCollection;
     }
@@ -212,5 +214,5 @@ public class PilgrimTimeslotsDetails implements Serializable {
     public String toString() {
         return "entities.PilgrimTimeslotsDetails[ timeslotsDetailsId=" + timeslotsDetailsId + " ]";
     }
-
+    
 }

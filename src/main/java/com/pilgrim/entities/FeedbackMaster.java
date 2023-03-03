@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +24,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "feedback_master")
@@ -60,10 +59,10 @@ public class FeedbackMaster implements Serializable {
     private Date updatedDate;
     @JoinColumn(name = "pilgrim_id", referencedColumnName = "pilgrim_id")
     @ManyToOne(optional = false)
-    private PilgrimMaster pilgrimId;
+    private PilgrimMaster pilgrim;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private UserMaster userId;
+    private UserMaster user;
 
     public FeedbackMaster() {
     }
@@ -111,20 +110,20 @@ public class FeedbackMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public PilgrimMaster getPilgrimId() {
-        return pilgrimId;
+    public PilgrimMaster getPilgrim() {
+        return pilgrim;
     }
 
-    public void setPilgrimId(PilgrimMaster pilgrimId) {
-        this.pilgrimId = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrimId) {
+        this.pilgrim = pilgrimId;
     }
 
-    public UserMaster getUserId() {
-        return userId;
+    public UserMaster getUser() {
+        return user;
     }
 
-    public void setUserId(UserMaster userId) {
-        this.userId = userId;
+    public void setUser(UserMaster userId) {
+        this.user = userId;
     }
 
     @Override
@@ -151,5 +150,5 @@ public class FeedbackMaster implements Serializable {
     public String toString() {
         return "entities.FeedbackMaster[ feedbackId=" + feedbackId + " ]";
     }
-
+    
 }

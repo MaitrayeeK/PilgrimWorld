@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "state_master")
@@ -59,11 +59,11 @@ public class StateMaster implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "stateId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "state")
     private Collection<PilgrimMaster> pilgrimMasterCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "stateId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "state")
     private Collection<CityMaster> cityMasterCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "stateId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "state")
     private Collection<UserMaster> userMasterCollection;
 
     public StateMaster() {
@@ -112,6 +112,7 @@ public class StateMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    @JsonbTransient
     public Collection<PilgrimMaster> getPilgrimMasterCollection() {
         return pilgrimMasterCollection;
     }
@@ -120,6 +121,7 @@ public class StateMaster implements Serializable {
         this.pilgrimMasterCollection = pilgrimMasterCollection;
     }
 
+    @JsonbTransient
     public Collection<CityMaster> getCityMasterCollection() {
         return cityMasterCollection;
     }
@@ -128,6 +130,7 @@ public class StateMaster implements Serializable {
         this.cityMasterCollection = cityMasterCollection;
     }
 
+    @JsonbTransient
     public Collection<UserMaster> getUserMasterCollection() {
         return userMasterCollection;
     }
@@ -160,5 +163,5 @@ public class StateMaster implements Serializable {
     public String toString() {
         return "entities.StateMaster[ stateId=" + stateId + " ]";
     }
-
+    
 }

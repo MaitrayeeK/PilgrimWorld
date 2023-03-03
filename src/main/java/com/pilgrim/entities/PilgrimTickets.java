@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "pilgrim_tickets")
@@ -69,15 +69,15 @@ public class PilgrimTickets implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticketId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
     private Collection<CommissionMaster> commissionMasterCollection;
     @JoinColumn(name = "pilgrim_id", referencedColumnName = "pilgrim_id")
     @ManyToOne(optional = false)
-    private PilgrimMaster pilgrimId;
+    private PilgrimMaster pilgrim;
     @JoinColumn(name = "timeslots_details_id", referencedColumnName = "timeslots_details_id")
     @ManyToOne(optional = false)
-    private PilgrimTimeslotsDetails timeslotsDetailsId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticketId")
+    private PilgrimTimeslotsDetails timeslotsDetails;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
     private Collection<BookingMaster> bookingMasterCollection;
 
     public PilgrimTickets() {
@@ -144,6 +144,7 @@ public class PilgrimTickets implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    @JsonbTransient
     public Collection<CommissionMaster> getCommissionMasterCollection() {
         return commissionMasterCollection;
     }
@@ -152,22 +153,23 @@ public class PilgrimTickets implements Serializable {
         this.commissionMasterCollection = commissionMasterCollection;
     }
 
-    public PilgrimMaster getPilgrimId() {
-        return pilgrimId;
+    public PilgrimMaster getPilgrim() {
+        return pilgrim;
     }
 
-    public void setPilgrimId(PilgrimMaster pilgrimId) {
-        this.pilgrimId = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrimId) {
+        this.pilgrim = pilgrimId;
     }
 
-    public PilgrimTimeslotsDetails getTimeslotsDetailsId() {
-        return timeslotsDetailsId;
+    public PilgrimTimeslotsDetails getTimeslotsDetails() {
+        return timeslotsDetails;
     }
 
-    public void setTimeslotsDetailsId(PilgrimTimeslotsDetails timeslotsDetailsId) {
-        this.timeslotsDetailsId = timeslotsDetailsId;
+    public void setTimeslotsDetails(PilgrimTimeslotsDetails timeslotsDetailsId) {
+        this.timeslotsDetails = timeslotsDetailsId;
     }
 
+    @JsonbTransient
     public Collection<BookingMaster> getBookingMasterCollection() {
         return bookingMasterCollection;
     }
@@ -200,5 +202,5 @@ public class PilgrimTickets implements Serializable {
     public String toString() {
         return "entities.PilgrimTickets[ ticketId=" + ticketId + " ]";
     }
-
+    
 }

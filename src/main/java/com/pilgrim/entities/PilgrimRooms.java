@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,7 +23,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "pilgrim_rooms")
@@ -68,7 +67,7 @@ public class PilgrimRooms implements Serializable {
     private Date updatedDate;
     @JoinColumn(name = "pilgrim_id", referencedColumnName = "pilgrim_id")
     @ManyToOne(optional = false)
-    private PilgrimMaster pilgrimId;
+    private PilgrimMaster pilgrim;
 
     public PilgrimRooms() {
     }
@@ -134,12 +133,12 @@ public class PilgrimRooms implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public PilgrimMaster getPilgrimId() {
-        return pilgrimId;
+    public PilgrimMaster getPilgrim() {
+        return pilgrim;
     }
 
-    public void setPilgrimId(PilgrimMaster pilgrimId) {
-        this.pilgrimId = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrimId) {
+        this.pilgrim = pilgrimId;
     }
 
     @Override
@@ -166,5 +165,5 @@ public class PilgrimRooms implements Serializable {
     public String toString() {
         return "entities.PilgrimRooms[ pilgrimRoomId=" + pilgrimRoomId + " ]";
     }
-
+    
 }
