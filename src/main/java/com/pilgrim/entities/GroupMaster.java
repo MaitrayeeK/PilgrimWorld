@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "group_master")
@@ -59,9 +59,9 @@ public class GroupMaster implements Serializable {
     @Column(name = "update_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     private Collection<UserrightsMaster> userrightsMasterCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     private Collection<UserMaster> userMasterCollection;
 
     public GroupMaster() {
@@ -110,6 +110,7 @@ public class GroupMaster implements Serializable {
         this.updateDate = updateDate;
     }
 
+    @JsonbTransient
     public Collection<UserrightsMaster> getUserrightsMasterCollection() {
         return userrightsMasterCollection;
     }
@@ -118,6 +119,7 @@ public class GroupMaster implements Serializable {
         this.userrightsMasterCollection = userrightsMasterCollection;
     }
 
+    @JsonbTransient
     public Collection<UserMaster> getUserMasterCollection() {
         return userMasterCollection;
     }
@@ -150,5 +152,5 @@ public class GroupMaster implements Serializable {
     public String toString() {
         return "entities.GroupMaster[ groupId=" + groupId + " ]";
     }
-
+    
 }

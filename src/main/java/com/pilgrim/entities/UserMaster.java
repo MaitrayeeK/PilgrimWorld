@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "user_master")
@@ -92,20 +92,22 @@ public class UserMaster implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<PilgrimMaster> pilgrimMasterCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<FeedbackMaster> feedbackMasterCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<PaymentMaster> paymentMasterCollection;
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     @ManyToOne(optional = false)
-    private GroupMaster groupId;
+    private GroupMaster group;
     @JoinColumn(name = "state_id", referencedColumnName = "state_id")
     @ManyToOne(optional = false)
-    private StateMaster stateId;
+    private StateMaster state;
     @JoinColumn(name = "city_id", referencedColumnName = "city_id")
     @ManyToOne(optional = false)
-    private CityMaster cityId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private CityMaster city;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<BookingMaster> bookingMasterCollection;
 
     public UserMaster() {
@@ -199,6 +201,16 @@ public class UserMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    @JsonbTransient
+    public Collection<PilgrimMaster> getPilgrimMasterCollection() {
+        return pilgrimMasterCollection;
+    }
+
+    public void setPilgrimMasterCollection(Collection<PilgrimMaster> pilgrimMasterCollection) {
+        this.pilgrimMasterCollection = pilgrimMasterCollection;
+    }
+
+    @JsonbTransient
     public Collection<FeedbackMaster> getFeedbackMasterCollection() {
         return feedbackMasterCollection;
     }
@@ -207,6 +219,7 @@ public class UserMaster implements Serializable {
         this.feedbackMasterCollection = feedbackMasterCollection;
     }
 
+    @JsonbTransient
     public Collection<PaymentMaster> getPaymentMasterCollection() {
         return paymentMasterCollection;
     }
@@ -215,30 +228,31 @@ public class UserMaster implements Serializable {
         this.paymentMasterCollection = paymentMasterCollection;
     }
 
-    public GroupMaster getGroupId() {
-        return groupId;
+    public GroupMaster getGroup() {
+        return group;
     }
 
-    public void setGroupId(GroupMaster groupId) {
-        this.groupId = groupId;
+    public void setGroup(GroupMaster groupId) {
+        this.group = groupId;
     }
 
-    public StateMaster getStateId() {
-        return stateId;
+    public StateMaster getState() {
+        return state;
     }
 
-    public void setStateId(StateMaster stateId) {
-        this.stateId = stateId;
+    public void setState(StateMaster stateId) {
+        this.state = stateId;
     }
 
-    public CityMaster getCityId() {
-        return cityId;
+    public CityMaster getCity() {
+        return city;
     }
 
-    public void setCityId(CityMaster cityId) {
-        this.cityId = cityId;
+    public void setCity(CityMaster cityId) {
+        this.city = cityId;
     }
 
+    @JsonbTransient
     public Collection<BookingMaster> getBookingMasterCollection() {
         return bookingMasterCollection;
     }
@@ -271,5 +285,5 @@ public class UserMaster implements Serializable {
     public String toString() {
         return "entities.UserMaster[ userId=" + userId + " ]";
     }
-
+    
 }

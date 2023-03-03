@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,7 +23,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "profit_master")
@@ -58,10 +57,10 @@ public class ProfitMaster implements Serializable {
     private Date updatedDate;
     @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
     @ManyToOne(optional = false)
-    private PaymentMaster paymentId;
+    private PaymentMaster payment;
     @JoinColumn(name = "commission_id", referencedColumnName = "commission_id")
     @ManyToOne(optional = false)
-    private CommissionMaster commissionId;
+    private CommissionMaster commission;
 
     public ProfitMaster() {
     }
@@ -109,20 +108,20 @@ public class ProfitMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public PaymentMaster getPaymentId() {
-        return paymentId;
+    public PaymentMaster getPayment() {
+        return payment;
     }
 
-    public void setPaymentId(PaymentMaster paymentId) {
-        this.paymentId = paymentId;
+    public void setPayment(PaymentMaster paymentId) {
+        this.payment = paymentId;
     }
 
-    public CommissionMaster getCommissionId() {
-        return commissionId;
+    public CommissionMaster getCommission() {
+        return commission;
     }
 
-    public void setCommissionId(CommissionMaster commissionId) {
-        this.commissionId = commissionId;
+    public void setCommission(CommissionMaster commissionId) {
+        this.commission = commissionId;
     }
 
     @Override
@@ -149,5 +148,5 @@ public class ProfitMaster implements Serializable {
     public String toString() {
         return "entities.ProfitMaster[ profitId=" + profitId + " ]";
     }
-
+    
 }

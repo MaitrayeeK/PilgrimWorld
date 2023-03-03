@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,29 +24,29 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
-@Table(name = "pilgrim_imaged")
+@Table(name = "advertisement_master")
 @NamedQueries({
-    @NamedQuery(name = "PilgrimImaged.findAll", query = "SELECT p FROM PilgrimImaged p"),
-    @NamedQuery(name = "PilgrimImaged.findByPilgrimImageId", query = "SELECT p FROM PilgrimImaged p WHERE p.pilgrimImageId = :pilgrimImageId"),
-    @NamedQuery(name = "PilgrimImaged.findByImages", query = "SELECT p FROM PilgrimImaged p WHERE p.images = :images"),
-    @NamedQuery(name = "PilgrimImaged.findByCreatedDate", query = "SELECT p FROM PilgrimImaged p WHERE p.createdDate = :createdDate"),
-    @NamedQuery(name = "PilgrimImaged.findByUpdatedDate", query = "SELECT p FROM PilgrimImaged p WHERE p.updatedDate = :updatedDate")})
-public class PilgrimImaged implements Serializable {
+    @NamedQuery(name = "AdvertisementMaster.findAll", query = "SELECT a FROM AdvertisementMaster a"),
+    @NamedQuery(name = "AdvertisementMaster.findByAdvertisementId", query = "SELECT a FROM AdvertisementMaster a WHERE a.advertisementId = :advertisementId"),
+    @NamedQuery(name = "AdvertisementMaster.findByAdImage", query = "SELECT a FROM AdvertisementMaster a WHERE a.adImage = :adImage"),
+    @NamedQuery(name = "AdvertisementMaster.findByCreatedDate", query = "SELECT a FROM AdvertisementMaster a WHERE a.createdDate = :createdDate"),
+    @NamedQuery(name = "AdvertisementMaster.findByUpdatedDate", query = "SELECT a FROM AdvertisementMaster a WHERE a.updatedDate = :updatedDate")})
+public class AdvertisementMaster implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "pilgrim_image_id")
-    private Integer pilgrimImageId;
+    @Column(name = "advertisement_id")
+    private Integer advertisementId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
-    @Column(name = "images")
-    private String images;
+    @Column(name = "ad_image")
+    private String adImage;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_date")
@@ -60,36 +59,36 @@ public class PilgrimImaged implements Serializable {
     private Date updatedDate;
     @JoinColumn(name = "pilgrim_id", referencedColumnName = "pilgrim_id")
     @ManyToOne(optional = false)
-    private PilgrimMaster pilgrimId;
+    private PilgrimMaster pilgrim;
 
-    public PilgrimImaged() {
+    public AdvertisementMaster() {
     }
 
-    public PilgrimImaged(Integer pilgrimImageId) {
-        this.pilgrimImageId = pilgrimImageId;
+    public AdvertisementMaster(Integer advertisementId) {
+        this.advertisementId = advertisementId;
     }
 
-    public PilgrimImaged(Integer pilgrimImageId, String images, Date createdDate, Date updatedDate) {
-        this.pilgrimImageId = pilgrimImageId;
-        this.images = images;
+    public AdvertisementMaster(Integer advertisementId, String adImage, Date createdDate, Date updatedDate) {
+        this.advertisementId = advertisementId;
+        this.adImage = adImage;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
     }
 
-    public Integer getPilgrimImageId() {
-        return pilgrimImageId;
+    public Integer getAdvertisementId() {
+        return advertisementId;
     }
 
-    public void setPilgrimImageId(Integer pilgrimImageId) {
-        this.pilgrimImageId = pilgrimImageId;
+    public void setAdvertisementId(Integer advertisementId) {
+        this.advertisementId = advertisementId;
     }
 
-    public String getImages() {
-        return images;
+    public String getAdImage() {
+        return adImage;
     }
 
-    public void setImages(String images) {
-        this.images = images;
+    public void setAdImage(String adImage) {
+        this.adImage = adImage;
     }
 
     public Date getCreatedDate() {
@@ -108,29 +107,29 @@ public class PilgrimImaged implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public PilgrimMaster getPilgrimId() {
-        return pilgrimId;
+    public PilgrimMaster getPilgrim() {
+        return pilgrim;
     }
 
-    public void setPilgrimId(PilgrimMaster pilgrimId) {
-        this.pilgrimId = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrimId) {
+        this.pilgrim = pilgrimId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (pilgrimImageId != null ? pilgrimImageId.hashCode() : 0);
+        hash += (advertisementId != null ? advertisementId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PilgrimImaged)) {
+        if (!(object instanceof AdvertisementMaster)) {
             return false;
         }
-        PilgrimImaged other = (PilgrimImaged) object;
-        if ((this.pilgrimImageId == null && other.pilgrimImageId != null) || (this.pilgrimImageId != null && !this.pilgrimImageId.equals(other.pilgrimImageId))) {
+        AdvertisementMaster other = (AdvertisementMaster) object;
+        if ((this.advertisementId == null && other.advertisementId != null) || (this.advertisementId != null && !this.advertisementId.equals(other.advertisementId))) {
             return false;
         }
         return true;
@@ -138,7 +137,7 @@ public class PilgrimImaged implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.PilgrimImaged[ pilgrimImageId=" + pilgrimImageId + " ]";
+        return "entities.AdvertisementMaster[ advertisementId=" + advertisementId + " ]";
     }
-
+    
 }

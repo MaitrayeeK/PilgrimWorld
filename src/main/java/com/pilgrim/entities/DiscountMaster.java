@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "discount_master")
@@ -62,7 +62,7 @@ public class DiscountMaster implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "discountId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "discount")
     private Collection<BookingMaster> bookingMasterCollection;
 
     public DiscountMaster() {
@@ -120,6 +120,7 @@ public class DiscountMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    @JsonbTransient
     public Collection<BookingMaster> getBookingMasterCollection() {
         return bookingMasterCollection;
     }
@@ -152,5 +153,5 @@ public class DiscountMaster implements Serializable {
     public String toString() {
         return "entities.DiscountMaster[ discountId=" + discountId + " ]";
     }
-
+    
 }

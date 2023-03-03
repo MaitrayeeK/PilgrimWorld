@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,7 +23,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "userrights_master")
@@ -58,10 +57,10 @@ public class UserrightsMaster implements Serializable {
     private Date updatedDate;
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     @ManyToOne(optional = false)
-    private GroupMaster groupId;
+    private GroupMaster group;
     @JoinColumn(name = "menu_id", referencedColumnName = "menu_id")
     @ManyToOne(optional = false)
-    private MenuMaster menuId;
+    private MenuMaster menu;
 
     public UserrightsMaster() {
     }
@@ -109,20 +108,20 @@ public class UserrightsMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public GroupMaster getGroupId() {
-        return groupId;
+    public GroupMaster getGroup() {
+        return group;
     }
 
-    public void setGroupId(GroupMaster groupId) {
-        this.groupId = groupId;
+    public void setGroup(GroupMaster groupId) {
+        this.group = groupId;
     }
 
-    public MenuMaster getMenuId() {
-        return menuId;
+    public MenuMaster getMenu() {
+        return menu;
     }
 
-    public void setMenuId(MenuMaster menuId) {
-        this.menuId = menuId;
+    public void setMenu(MenuMaster menuId) {
+        this.menu = menuId;
     }
 
     @Override
@@ -149,5 +148,5 @@ public class UserrightsMaster implements Serializable {
     public String toString() {
         return "entities.UserrightsMaster[ userrightsId=" + userrightsId + " ]";
     }
-
+    
 }

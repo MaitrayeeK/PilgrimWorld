@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-package entities;
+package com.pilgrim.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Maitrayee
+ * @author Dell
  */
 @Entity
 @Table(name = "payment_master")
@@ -59,19 +59,17 @@ public class PaymentMaster implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "payment")
     private Collection<ProfitMaster> profitMasterCollection;
     @JoinColumn(name = "booking_id", referencedColumnName = "booking_id")
     @ManyToOne(optional = false)
-    private BookingMaster bookingId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pilgrimId")
-    private Collection<PaymentMaster> paymentMasterCollection;
-    @JoinColumn(name = "pilgrim_id", referencedColumnName = "payment_id")
+    private BookingMaster booking;
+    @JoinColumn(name = "pilgrim_id", referencedColumnName = "pilgrim_id")
     @ManyToOne(optional = false)
-    private PaymentMaster pilgrimId;
+    private PilgrimMaster pilgrim;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private UserMaster userId;
+    private UserMaster user;
 
     public PaymentMaster() {
     }
@@ -119,6 +117,7 @@ public class PaymentMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    @JsonbTransient
     public Collection<ProfitMaster> getProfitMasterCollection() {
         return profitMasterCollection;
     }
@@ -127,36 +126,28 @@ public class PaymentMaster implements Serializable {
         this.profitMasterCollection = profitMasterCollection;
     }
 
-    public BookingMaster getBookingId() {
-        return bookingId;
+    public BookingMaster getBooking() {
+        return booking;
     }
 
-    public void setBookingId(BookingMaster bookingId) {
-        this.bookingId = bookingId;
+    public void setBooking(BookingMaster bookingId) {
+        this.booking = bookingId;
     }
 
-    public Collection<PaymentMaster> getPaymentMasterCollection() {
-        return paymentMasterCollection;
+    public PilgrimMaster getPilgrim() {
+        return pilgrim;
     }
 
-    public void setPaymentMasterCollection(Collection<PaymentMaster> paymentMasterCollection) {
-        this.paymentMasterCollection = paymentMasterCollection;
+    public void setPilgrim(PilgrimMaster pilgrimId) {
+        this.pilgrim = pilgrimId;
     }
 
-    public PaymentMaster getPilgrimId() {
-        return pilgrimId;
+    public UserMaster getUser() {
+        return user;
     }
 
-    public void setPilgrimId(PaymentMaster pilgrimId) {
-        this.pilgrimId = pilgrimId;
-    }
-
-    public UserMaster getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UserMaster userId) {
-        this.userId = userId;
+    public void setUser(UserMaster userId) {
+        this.user = userId;
     }
 
     @Override
@@ -183,5 +174,5 @@ public class PaymentMaster implements Serializable {
     public String toString() {
         return "entities.PaymentMaster[ paymentId=" + paymentId + " ]";
     }
-
+    
 }
