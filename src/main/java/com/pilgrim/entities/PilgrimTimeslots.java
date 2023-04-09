@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -27,7 +28,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "pilgrim_timeslots")
@@ -115,10 +116,10 @@ public class PilgrimTimeslots implements Serializable {
         return pilgrim;
     }
 
-    public void setPilgrim(PilgrimMaster pilgrimId) {
-        this.pilgrim = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrim) {
+        this.pilgrim = pilgrim;
     }
-
+    
     @JsonbTransient
     public Collection<PilgrimTimeslotsDetails> getPilgrimTimeslotsDetailsCollection() {
         return pilgrimTimeslotsDetailsCollection;
@@ -150,7 +151,7 @@ public class PilgrimTimeslots implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.PilgrimTimeslots[ timeslotsId=" + timeslotsId + " ]";
+        return "com.pilgrim.entities.PilgrimTimeslots[ timeslotsId=" + timeslotsId + " ]";
     }
-    
+
 }

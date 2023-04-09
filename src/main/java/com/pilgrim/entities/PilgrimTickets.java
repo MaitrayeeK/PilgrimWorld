@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -27,7 +28,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "pilgrim_tickets")
@@ -143,7 +144,7 @@ public class PilgrimTickets implements Serializable {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
-
+    
     @JsonbTransient
     public Collection<CommissionMaster> getCommissionMasterCollection() {
         return commissionMasterCollection;
@@ -157,18 +158,18 @@ public class PilgrimTickets implements Serializable {
         return pilgrim;
     }
 
-    public void setPilgrim(PilgrimMaster pilgrimId) {
-        this.pilgrim = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrim) {
+        this.pilgrim = pilgrim;
     }
 
     public PilgrimTimeslotsDetails getTimeslotsDetails() {
         return timeslotsDetails;
     }
 
-    public void setTimeslotsDetails(PilgrimTimeslotsDetails timeslotsDetailsId) {
-        this.timeslotsDetails = timeslotsDetailsId;
+    public void setTimeslotsDetails(PilgrimTimeslotsDetails timeslotsDetails) {
+        this.timeslotsDetails = timeslotsDetails;
     }
-
+    
     @JsonbTransient
     public Collection<BookingMaster> getBookingMasterCollection() {
         return bookingMasterCollection;
@@ -200,7 +201,7 @@ public class PilgrimTickets implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.PilgrimTickets[ ticketId=" + ticketId + " ]";
+        return "com.pilgrim.entities.PilgrimTickets[ ticketId=" + ticketId + " ]";
     }
-    
+
 }

@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -24,7 +25,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "advertisement_master")
@@ -111,8 +112,8 @@ public class AdvertisementMaster implements Serializable {
         return pilgrim;
     }
 
-    public void setPilgrim(PilgrimMaster pilgrimId) {
-        this.pilgrim = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrim) {
+        this.pilgrim = pilgrim;
     }
 
     @Override
@@ -137,7 +138,7 @@ public class AdvertisementMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.AdvertisementMaster[ advertisementId=" + advertisementId + " ]";
+        return "com.pilgrim.entities.AdvertisementMaster[ advertisementId=" + advertisementId + " ]";
     }
-    
+
 }

@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -25,7 +26,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "discount_master")
@@ -119,7 +120,7 @@ public class DiscountMaster implements Serializable {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
-
+    
     @JsonbTransient
     public Collection<BookingMaster> getBookingMasterCollection() {
         return bookingMasterCollection;
@@ -151,7 +152,7 @@ public class DiscountMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.DiscountMaster[ discountId=" + discountId + " ]";
+        return "com.pilgrim.entities.DiscountMaster[ discountId=" + discountId + " ]";
     }
-    
+
 }

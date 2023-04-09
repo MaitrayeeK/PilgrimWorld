@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -27,7 +28,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "payment_master")
@@ -116,7 +117,7 @@ public class PaymentMaster implements Serializable {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
-
+    
     @JsonbTransient
     public Collection<ProfitMaster> getProfitMasterCollection() {
         return profitMasterCollection;
@@ -130,24 +131,24 @@ public class PaymentMaster implements Serializable {
         return booking;
     }
 
-    public void setBooking(BookingMaster bookingId) {
-        this.booking = bookingId;
+    public void setBooking(BookingMaster booking) {
+        this.booking = booking;
     }
 
     public PilgrimMaster getPilgrim() {
         return pilgrim;
     }
 
-    public void setPilgrim(PilgrimMaster pilgrimId) {
-        this.pilgrim = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrim) {
+        this.pilgrim = pilgrim;
     }
 
     public UserMaster getUser() {
         return user;
     }
 
-    public void setUser(UserMaster userId) {
-        this.user = userId;
+    public void setUser(UserMaster user) {
+        this.user = user;
     }
 
     @Override
@@ -172,7 +173,7 @@ public class PaymentMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.PaymentMaster[ paymentId=" + paymentId + " ]";
+        return "com.pilgrim.entities.PaymentMaster[ paymentId=" + paymentId + " ]";
     }
-    
+
 }
