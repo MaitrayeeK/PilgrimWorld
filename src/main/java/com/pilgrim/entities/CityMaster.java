@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -28,7 +29,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "city_master")
@@ -114,7 +115,7 @@ public class CityMaster implements Serializable {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
-
+    
     @JsonbTransient
     public Collection<PilgrimMaster> getPilgrimMasterCollection() {
         return pilgrimMasterCollection;
@@ -128,10 +129,10 @@ public class CityMaster implements Serializable {
         return state;
     }
 
-    public void setState(StateMaster stateId) {
-        this.state = stateId;
+    public void setStateId(StateMaster state) {
+        this.state = state;
     }
-
+    
     @JsonbTransient
     public Collection<UserMaster> getUserMasterCollection() {
         return userMasterCollection;
@@ -163,7 +164,7 @@ public class CityMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.CityMaster[ cityId=" + cityId + " ]";
+        return "com.pilgrim.entities.CityMaster[ cityId=" + cityId + " ]";
     }
-    
+
 }

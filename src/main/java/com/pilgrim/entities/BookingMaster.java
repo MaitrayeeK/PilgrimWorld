@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -27,7 +28,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "booking_master")
@@ -66,9 +67,6 @@ public class BookingMaster implements Serializable {
     private Date updatedDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
     private Collection<PaymentMaster> paymentMasterCollection;
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    @ManyToOne(optional = false)
-    private UserMaster user;
     @JoinColumn(name = "discount_id", referencedColumnName = "discount_id")
     @ManyToOne(optional = false)
     private DiscountMaster discount;
@@ -81,6 +79,9 @@ public class BookingMaster implements Serializable {
     @JoinColumn(name = "timeslots_details_id", referencedColumnName = "timeslots_details_id")
     @ManyToOne(optional = false)
     private PilgrimTimeslotsDetails timeslotsDetails;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne(optional = false)
+    private UserMaster user;
 
     public BookingMaster() {
     }
@@ -136,7 +137,7 @@ public class BookingMaster implements Serializable {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
-
+    
     @JsonbTransient
     public Collection<PaymentMaster> getPaymentMasterCollection() {
         return paymentMasterCollection;
@@ -146,44 +147,44 @@ public class BookingMaster implements Serializable {
         this.paymentMasterCollection = paymentMasterCollection;
     }
 
-    public UserMaster getUser() {
-        return user;
-    }
-
-    public void setUser(UserMaster userId) {
-        this.user = userId;
-    }
-
     public DiscountMaster getDiscount() {
         return discount;
     }
 
-    public void setDiscount(DiscountMaster discountId) {
-        this.discount = discountId;
+    public void setDiscount(DiscountMaster discount) {
+        this.discount = discount;
     }
 
     public PilgrimMaster getPilgrim() {
         return pilgrim;
     }
 
-    public void setPilgrim(PilgrimMaster pilgrimId) {
-        this.pilgrim = pilgrimId;
+    public void setPilgrim(PilgrimMaster pilgrim) {
+        this.pilgrim = pilgrim;
     }
 
     public PilgrimTickets getTicket() {
         return ticket;
     }
 
-    public void setTicket(PilgrimTickets ticketId) {
-        this.ticket = ticketId;
+    public void setTicket(PilgrimTickets ticket) {
+        this.ticket = ticket;
     }
 
     public PilgrimTimeslotsDetails getTimeslotsDetails() {
         return timeslotsDetails;
     }
 
-    public void setTimeslotsDetails(PilgrimTimeslotsDetails timeslotsDetailsId) {
-        this.timeslotsDetails = timeslotsDetailsId;
+    public void setTimeslotsDetails(PilgrimTimeslotsDetails timeslotsDetails) {
+        this.timeslotsDetails = timeslotsDetails;
+    }
+
+    public UserMaster getUser() {
+        return user;
+    }
+
+    public void setUser(UserMaster user) {
+        this.user = user;
     }
 
     @Override
@@ -208,7 +209,7 @@ public class BookingMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.BookingMaster[ bookingId=" + bookingId + " ]";
+        return "com.pilgrim.entities.BookingMaster[ bookingId=" + bookingId + " ]";
     }
-    
+
 }

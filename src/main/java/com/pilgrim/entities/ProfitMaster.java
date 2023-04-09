@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "profit_master")
@@ -55,12 +56,12 @@ public class ProfitMaster implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
-    @ManyToOne(optional = false)
-    private PaymentMaster payment;
     @JoinColumn(name = "commission_id", referencedColumnName = "commission_id")
     @ManyToOne(optional = false)
     private CommissionMaster commission;
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    @ManyToOne(optional = false)
+    private PaymentMaster payment;
 
     public ProfitMaster() {
     }
@@ -108,20 +109,20 @@ public class ProfitMaster implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public PaymentMaster getPayment() {
-        return payment;
-    }
-
-    public void setPayment(PaymentMaster paymentId) {
-        this.payment = paymentId;
-    }
-
     public CommissionMaster getCommission() {
         return commission;
     }
 
-    public void setCommission(CommissionMaster commissionId) {
-        this.commission = commissionId;
+    public void setCommission(CommissionMaster commission) {
+        this.commission = commission;
+    }
+
+    public PaymentMaster getPayment() {
+        return payment;
+    }
+
+    public void setPayment(PaymentMaster payment) {
+        this.payment = payment;
     }
 
     @Override
@@ -146,7 +147,7 @@ public class ProfitMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.ProfitMaster[ profitId=" + profitId + " ]";
+        return "com.pilgrim.entities.ProfitMaster[ profitId=" + profitId + " ]";
     }
-    
+
 }

@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "userrights_master")
@@ -112,16 +113,16 @@ public class UserrightsMaster implements Serializable {
         return group;
     }
 
-    public void setGroup(GroupMaster groupId) {
-        this.group = groupId;
+    public void setGroup(GroupMaster group) {
+        this.group = group;
     }
 
     public MenuMaster getMenu() {
         return menu;
     }
 
-    public void setMenu(MenuMaster menuId) {
-        this.menu = menuId;
+    public void setMenu(MenuMaster menu) {
+        this.menu = menu;
     }
 
     @Override
@@ -146,7 +147,7 @@ public class UserrightsMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.UserrightsMaster[ userrightsId=" + userrightsId + " ]";
+        return "com.pilgrim.entities.UserrightsMaster[ userrightsId=" + userrightsId + " ]";
     }
-    
+
 }

@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -15,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,7 +29,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Dell
+ * @author Maitrayee
  */
 @Entity
 @Table(name = "menu_master")
@@ -34,7 +37,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "MenuMaster.findAll", query = "SELECT m FROM MenuMaster m"),
     @NamedQuery(name = "MenuMaster.findByMenuId", query = "SELECT m FROM MenuMaster m WHERE m.menuId = :menuId"),
     @NamedQuery(name = "MenuMaster.findByMenuName", query = "SELECT m FROM MenuMaster m WHERE m.menuName = :menuName"),
-    @NamedQuery(name = "MenuMaster.findByParentMenuId", query = "SELECT m FROM MenuMaster m WHERE m.parentMenuId = :parentMenuId"),
     @NamedQuery(name = "MenuMaster.findByCreatedDate", query = "SELECT m FROM MenuMaster m WHERE m.createdDate = :createdDate"),
     @NamedQuery(name = "MenuMaster.findByUpdatedDate", query = "SELECT m FROM MenuMaster m WHERE m.updatedDate = :updatedDate")})
 public class MenuMaster implements Serializable {
@@ -50,8 +52,6 @@ public class MenuMaster implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "menu_name")
     private String menuName;
-    @Column(name = "parent_menu_id")
-    private Integer parentMenuId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_date")
@@ -62,6 +62,11 @@ public class MenuMaster implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+    @OneToMany(mappedBy = "parentMenu")
+    private Collection<MenuMaster> menuMasterCollection;
+    @JoinColumn(name = "parent_menu_id", referencedColumnName = "menu_id")
+    @ManyToOne
+    private MenuMaster parentMenu;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "menu")
     private Collection<UserrightsMaster> userrightsMasterCollection;
 
@@ -95,14 +100,6 @@ public class MenuMaster implements Serializable {
         this.menuName = menuName;
     }
 
-    public Integer getParentMenuId() {
-        return parentMenuId;
-    }
-
-    public void setParentMenuId(Integer parentMenuId) {
-        this.parentMenuId = parentMenuId;
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -118,8 +115,24 @@ public class MenuMaster implements Serializable {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
-
+    
     @JsonbTransient
+    public Collection<MenuMaster> getMenuMasterCollection() {
+        return menuMasterCollection;
+    }
+
+    public void setMenuMasterCollection(Collection<MenuMaster> menuMasterCollection) {
+        this.menuMasterCollection = menuMasterCollection;
+    }
+
+    public MenuMaster getParentMenu() {
+        return parentMenu;
+    }
+
+    public void setParentMenu(MenuMaster parentMenu) {
+        this.parentMenu = parentMenu;
+    }
+
     public Collection<UserrightsMaster> getUserrightsMasterCollection() {
         return userrightsMasterCollection;
     }
@@ -150,7 +163,7 @@ public class MenuMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.MenuMaster[ menuId=" + menuId + " ]";
+        return "com.pilgrim.entities.MenuMaster[ menuId=" + menuId + " ]";
     }
-    
+
 }
