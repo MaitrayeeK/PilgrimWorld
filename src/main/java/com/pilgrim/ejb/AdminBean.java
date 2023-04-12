@@ -15,9 +15,9 @@ import com.pilgrim.entities.ProfitMaster;
 import com.pilgrim.entities.StateMaster;
 import com.pilgrim.entities.UserMaster;
 import com.pilgrim.entities.UserrightsMaster;
+import com.pilgrim.helper.Response;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -49,11 +49,11 @@ public class AdminBean implements AdminBeanLocal {
     }
 
     @Override
-    public void addCommission(CommissionMaster commission, Integer pilgrimID, Integer ticketID) {
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrimID);
+    public void addCommission(CommissionMaster commission) {
+        PilgrimMaster p = em.find(PilgrimMaster.class, commission.getPilgrim().getPilgrimId());
         Collection<CommissionMaster> commissionByPilgrim = p.getCommissionMasterCollection();
 
-        PilgrimTickets t = em.find(PilgrimTickets.class, ticketID);
+        PilgrimTickets t = em.find(PilgrimTickets.class, commission.getTicket().getTicketId());
         Collection<CommissionMaster> commissionOnTicket = t.getCommissionMasterCollection();
 
         commission.setPilgrim(p);
@@ -71,13 +71,29 @@ public class AdminBean implements AdminBeanLocal {
 
     @Override
     public void updateCommission(CommissionMaster commission) {
-        CommissionMaster com = em.find(CommissionMaster.class, commission.getCommissionId());
+        PilgrimMaster p = em.find(PilgrimMaster.class, commission.getPilgrim().getPilgrimId());
+        PilgrimTickets t = em.find(PilgrimTickets.class, commission.getTicket().getTicketId());
+        commission.setPilgrim(p);
+        commission.setTicket(t);
+        em.merge(commission);
 
     }
 
     @Override
-    public void removeCommission(CommissionMaster commission) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void removeCommission(Integer id) {
+        CommissionMaster commission = em.find(CommissionMaster.class, id);
+
+        PilgrimMaster p = em.find(PilgrimMaster.class, commission.getPilgrim().getPilgrimId());
+        Collection<CommissionMaster> commissionByPilgrim = p.getCommissionMasterCollection();
+
+        PilgrimTickets t = em.find(PilgrimTickets.class, commission.getTicket().getTicketId());
+        Collection<CommissionMaster> commissionOnTicket = t.getCommissionMasterCollection();
+
+        if (commissionByPilgrim.contains(commission) && commissionOnTicket.contains(commission)) {
+            commissionByPilgrim.remove(commission);
+            commissionOnTicket.remove(commission);
+        }
+        em.remove(commission);
     }
 
     @Override
@@ -87,7 +103,7 @@ public class AdminBean implements AdminBeanLocal {
 
     @Override
     public void addMenu(MenuMaster menu) {
-        em.persist(menu);
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -96,22 +112,21 @@ public class AdminBean implements AdminBeanLocal {
     }
 
     @Override
-    public void removeMenu(MenuMaster menu) {
+    public void removeMenu(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public Collection<MenuMaster> getAllMenu() {
-        return em.createNamedQuery("MenuMaster.findAll").getResultList();
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void addProfit(ProfitMaster profit, Integer commissionId, Integer paymentId) {
-
-        CommissionMaster c = em.find(CommissionMaster.class, commissionId);
+    public void addProfit(ProfitMaster profit) {
+        CommissionMaster c = em.find(CommissionMaster.class, profit.getCommission().getCommissionId());
         Collection<ProfitMaster> profitByCommission = c.getProfitMasterCollection();
 
-        PaymentMaster pm = em.find(PaymentMaster.class, paymentId);
+        PaymentMaster pm = em.find(PaymentMaster.class, profit.getPayment().getPaymentId());
         Collection<ProfitMaster> profitByPayment = pm.getProfitMasterCollection();
 
         profit.setCommission(c);
@@ -125,32 +140,32 @@ public class AdminBean implements AdminBeanLocal {
 
         em.persist(profit);
         em.merge(c);
-
     }
 
     @Override
-    public void updateProfit(ProfitMaster profit, Integer commissionId, Integer paymentId) {
-        CommissionMaster c = em.find(CommissionMaster.class, commissionId);
+    public void updateProfit(ProfitMaster profit) {
+        CommissionMaster c = em.find(CommissionMaster.class, profit.getCommission().getCommissionId());
+        PaymentMaster pm = em.find(PaymentMaster.class, profit.getPayment().getPaymentId());
+        profit.setCommission(c);
+        profit.setPayment(pm);
+        em.merge(profit);
+    }
+
+    @Override
+    public void removeProfit(Integer id) {
+        ProfitMaster profit = em.find(ProfitMaster.class, id);
+
+        CommissionMaster c = em.find(CommissionMaster.class, profit.getCommission().getCommissionId());
         Collection<ProfitMaster> profitByCommission = c.getProfitMasterCollection();
 
-        PaymentMaster pm = em.find(PaymentMaster.class, paymentId);
+        PaymentMaster pm = em.find(PaymentMaster.class, profit.getPayment().getPaymentId());
         Collection<ProfitMaster> profitByPayment = pm.getProfitMasterCollection();
 
-        ProfitMaster p = em.find(ProfitMaster.class, profit.getProfitId());
-        p.setCommission(c);
-        p.setPayment(pm);
-        p.setUpdatedDate(new Date());
-
-        c.setProfitMasterCollection(profitByCommission);
-
-        pm.setProfitMasterCollection(profitByPayment);
-
-        em.merge(p);
-    }
-
-    @Override
-    public void removeProfit(ProfitMaster profit) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (profitByCommission.contains(profit) && profitByPayment.contains(profit)) {
+            profitByCommission.remove(profit);
+            profitByPayment.remove(profit);
+        }
+        em.remove(profit);
     }
 
     @Override
@@ -159,11 +174,11 @@ public class AdminBean implements AdminBeanLocal {
     }
 
     @Override
-    public void addUserrights(UserrightsMaster userrights, Integer groupId, Integer menuId) {
-        GroupMaster group = em.find(GroupMaster.class, groupId);
+    public void addUserrights(UserrightsMaster userrights) {
+        GroupMaster group = em.find(GroupMaster.class, userrights.getGroup().getGroupId());
         Collection<UserrightsMaster> userrightsByGroup = group.getUserrightsMasterCollection();
 
-        MenuMaster menu = em.find(MenuMaster.class, menuId);
+        MenuMaster menu = em.find(MenuMaster.class, userrights.getMenu().getMenuId());
         Collection<UserrightsMaster> userrightsByMenu = menu.getUserrightsMasterCollection();
 
         userrights.setGroup(group);
@@ -179,26 +194,28 @@ public class AdminBean implements AdminBeanLocal {
     }
 
     @Override
-    public void updateUserrights(UserrightsMaster userrights, Integer groupId, Integer menuId) {
-        GroupMaster group = em.find(GroupMaster.class, groupId);
-        Collection<UserrightsMaster> userrightsByGroup = group.getUserrightsMasterCollection();
-
-        MenuMaster menu = em.find(MenuMaster.class, menuId);
-        Collection<UserrightsMaster> userrightsByMenu = menu.getUserrightsMasterCollection();
-
-        UserrightsMaster upUserright = em.find(UserrightsMaster.class, userrights.getUserrightsId());
-        upUserright.setGroup(group);
-        upUserright.setMenu(menu);
-
-        menu.setUserrightsMasterCollection(userrightsByMenu);
-        group.setUserrightsMasterCollection(userrightsByGroup);
-
-        em.merge(upUserright);
+    public void updateUserrights(UserrightsMaster userrights) {
+        GroupMaster group = em.find(GroupMaster.class, userrights.getGroup().getGroupId());
+        MenuMaster menu = em.find(MenuMaster.class, userrights.getMenu().getMenuId());
+        userrights.setGroup(group);
+        userrights.setMenu(menu);
+        em.merge(userrights);
     }
 
     @Override
-    public void removeUserrights(UserrightsMaster userrights) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void removeUserrights(Integer id) {
+        UserrightsMaster userrights = em.find(UserrightsMaster.class, id);
+        GroupMaster group = em.find(GroupMaster.class, userrights.getGroup().getGroupId());
+        Collection<UserrightsMaster> userrightsByGroup = group.getUserrightsMasterCollection();
+
+        MenuMaster menu = em.find(MenuMaster.class, userrights.getMenu().getMenuId());
+        Collection<UserrightsMaster> userrightsByMenu = menu.getUserrightsMasterCollection();
+
+        if (userrightsByGroup.contains(userrights) && userrightsByMenu.contains(userrights)) {
+            userrightsByGroup.remove(userrights);
+            userrightsByMenu.remove(userrights);
+        }
+        em.remove(userrights);
     }
 
     @Override
@@ -207,66 +224,63 @@ public class AdminBean implements AdminBeanLocal {
     }
 
     @Override
-    public Object addUser(UserMaster user, Integer groupId, Integer stateId, Integer cityId) {
-        try {
-            GroupMaster g = em.find(GroupMaster.class, groupId);
-            StateMaster s = em.find(StateMaster.class, stateId);
-            CityMaster c = em.find(CityMaster.class, cityId);
+    public void addUser(UserMaster user) {
+        GroupMaster g = em.find(GroupMaster.class, user.getGroup().getGroupId());
+        StateMaster s = em.find(StateMaster.class, user.getState().getStateId());
+        CityMaster c = em.find(CityMaster.class, user.getCity().getCityId());
 
-            user.setGroup(g);
-            user.setState(s);
-            user.setCity(c);
+        user.setGroup(g);
+        user.setState(s);
+        user.setCity(c);
+        user.setCreatedDate(new Date());
+        user.setUpdatedDate(new Date());
+        
+        Collection<UserMaster> userCollection = g.getUserMasterCollection();
+        userCollection.add(user);
+        g.setUserMasterCollection(userCollection);
 
-            Collection<UserMaster> userCollection = g.getUserMasterCollection();
-            userCollection.add(user);
-            g.setUserMasterCollection(userCollection);
+        userCollection = s.getUserMasterCollection();
+        userCollection.add(user);
+        s.setUserMasterCollection(userCollection);
 
-            userCollection = s.getUserMasterCollection();
-            userCollection.add(user);
-            s.setUserMasterCollection(userCollection);
+        userCollection = c.getUserMasterCollection();
+        userCollection.add(user);
+        c.setUserMasterCollection(userCollection);
 
-            userCollection = c.getUserMasterCollection();
-            userCollection.add(user);
-            c.setUserMasterCollection(userCollection);
-
-            em.persist(user);
-            return em.merge(user);
-        } catch (Exception e) {
-            return e;
-        }
+        em.persist(user);
+        em.merge(user);
     }
 
     @Override
-    public Object updateUser(UserMaster user, Integer groupId, Integer stateId, Integer cityId) {
-        try {
-            GroupMaster g = em.find(GroupMaster.class, groupId);
-            StateMaster s = em.find(StateMaster.class, stateId);
-            CityMaster c = em.find(CityMaster.class, cityId);
-
-            UserMaster upUser = em.find(UserMaster.class, user.getUserId());
-            upUser.setGroup(g);
-            upUser.setState(s);
-            upUser.setCity(c);
-
-            Collection<UserMaster> userCollection = g.getUserMasterCollection();
-            g.setUserMasterCollection(userCollection);
-
-            userCollection = s.getUserMasterCollection();
-            s.setUserMasterCollection(userCollection);
-
-            userCollection = c.getUserMasterCollection();
-            c.setUserMasterCollection(userCollection);
-
-            return em.merge(upUser);
-        } catch (Exception e) {
-            return e;
-        }
-
+    public void updateUser(UserMaster user) {
+        GroupMaster g = em.find(GroupMaster.class, user.getGroup().getGroupId());
+        StateMaster s = em.find(StateMaster.class, user.getState().getStateId());
+        CityMaster c = em.find(CityMaster.class, user.getCity().getCityId());
+        user.setGroup(g);
+        user.setState(s);
+        user.setCity(c);
+        em.merge(user);
     }
 
     @Override
-    public void removeUser(UserMaster user) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void removeUser(Integer id) {
+        UserMaster user = em.find(UserMaster.class, id);
+        
+        GroupMaster g = em.find(GroupMaster.class, user.getGroup().getGroupId());
+        Collection<UserMaster> usersByGroup = g.getUserMasterCollection();
+
+        StateMaster s = em.find(StateMaster.class, user.getState().getStateId());
+        Collection<UserMaster> usersByState = s.getUserMasterCollection();
+
+        CityMaster c = em.find(CityMaster.class, user.getCity().getCityId());
+        Collection<UserMaster> usersByCity = c.getUserMasterCollection();
+        
+        if(usersByCity.contains(user) && usersByGroup.contains(user) && usersByState.contains(user)) {
+            usersByCity.remove(user);
+            usersByGroup.remove(user);
+            usersByState.remove(user);
+        }
+        em.remove(user);
     }
 
     @Override
