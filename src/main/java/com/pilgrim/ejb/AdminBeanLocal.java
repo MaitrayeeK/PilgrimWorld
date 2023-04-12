@@ -29,33 +29,33 @@ public interface AdminBeanLocal {
     
     Collection<GroupMaster> getAllGroups();
     
-    void addCommission(CommissionMaster commission, Integer pilgrimID, Integer ticketID);
+    void addCommission(CommissionMaster commission);
     void updateCommission(CommissionMaster commission);
-    void removeCommission(CommissionMaster commission);
+    void removeCommission(Integer commission);
     
     Collection<CommissionMaster> getAllCommissions();
     
     void addMenu(MenuMaster menu);
     void updateMenu(MenuMaster menu);
-    void removeMenu(MenuMaster menu);
+    void removeMenu(Integer menu);
     
     Collection<MenuMaster> getAllMenu();
     
-    void addProfit(ProfitMaster profit, Integer commissionId, Integer paymentId);
-    void updateProfit(ProfitMaster profit, Integer commissionId, Integer paymentId);
-    void removeProfit(ProfitMaster profit);
+    void addProfit(ProfitMaster profit);
+    void updateProfit(ProfitMaster profit);
+    void removeProfit(Integer profit);
     
     Collection<ProfitMaster> getAllProfits();
     
-    void addUserrights(UserrightsMaster userrights, Integer groupId, Integer menuId);
-    void updateUserrights(UserrightsMaster userrights, Integer groupId, Integer menuId);
-    void removeUserrights(UserrightsMaster userrights);
+    void addUserrights(UserrightsMaster userrights);
+    void updateUserrights(UserrightsMaster userrights);
+    void removeUserrights(Integer userrights);
 
     Collection<UserrightsMaster> getAllUserrights();
     
-    Object addUser(UserMaster user, Integer groupId, Integer stateId, Integer cityId);
-    Object updateUser(UserMaster user, Integer groupId, Integer stateId, Integer cityId);
-    void removeUser(UserMaster user);
+    void addUser(UserMaster user);
+    void updateUser(UserMaster user);
+    void removeUser(Integer user);
 
     Collection<UserMaster> getAllUser();
 }
