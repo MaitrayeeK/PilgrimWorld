@@ -75,9 +75,14 @@ public class UserMaster implements Serializable {
     private String email;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 512)
     @Column(name = "password")
     private String password;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "user_image")
+    private String userImage;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -118,13 +123,19 @@ public class UserMaster implements Serializable {
         this.userId = userId;
     }
 
-    public UserMaster(Integer userId, String firstname, String lastname, String username, String email, String password, String address, Date createdDate, Date updatedDate) {
+    public UserMaster(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public UserMaster(Integer userId, String firstname, String lastname, String username, String email, String password, String userImage, String address, Date createdDate, Date updatedDate) {
         this.userId = userId;
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.userImage = userImage;
         this.address = address;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
@@ -176,6 +187,14 @@ public class UserMaster implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 
     public String getAddress() {

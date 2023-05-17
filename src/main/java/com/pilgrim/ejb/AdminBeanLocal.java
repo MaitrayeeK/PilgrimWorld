@@ -25,7 +25,9 @@ public interface AdminBeanLocal {
     //get cities by state
     Collection<CityMaster> getAllCitiesByState(Integer stateid);
     
-    Collection<StateMaster> getAllState();
+    Collection<CityMaster> getAllCities();
+    
+    Collection<StateMaster> getAllStates();
     
     Collection<GroupMaster> getAllGroups();
     
@@ -34,6 +36,7 @@ public interface AdminBeanLocal {
     void removeCommission(Integer commission);
     
     Collection<CommissionMaster> getAllCommissions();
+    Collection<CommissionMaster> getCommissionsByPilgrim(Integer pilgrimId);
     
     void addMenu(MenuMaster menu);
     void updateMenu(MenuMaster menu);
@@ -58,4 +61,6 @@ public interface AdminBeanLocal {
     void removeUser(Integer user);
 
     Collection<UserMaster> getAllUser();
+    UserMaster getUserByUsername(String username);
+    Collection<UserMaster> getUsersByGroup(Integer groupId);
 }

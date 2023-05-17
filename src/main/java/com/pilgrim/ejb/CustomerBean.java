@@ -29,61 +29,51 @@ public class CustomerBean implements CustomerBeanLocal {
     EntityManager em;
     
     @Override
-    public void addFeedback(FeedbackMaster feedback, Integer pilgrimId, Integer userId) {
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrimId);
-        Collection<FeedbackMaster> pilgrimFeedbacks = p.getFeedbackMasterCollection();
+    public void addFeedback(FeedbackMaster feedback) {
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, feedback.getPilgrim().getPilgrimId());
+        Collection<FeedbackMaster> pilgrimFeedbacks = pilgrim.getFeedbackMasterCollection();
         
-        UserMaster u = em.find(UserMaster.class, userId);
-        Collection<FeedbackMaster> userFeedbacks = u.getFeedbackMasterCollection();
+        UserMaster user = em.find(UserMaster.class, feedback.getUser().getUserId());
+        Collection<FeedbackMaster> userFeedbacks = user.getFeedbackMasterCollection();
         
-        feedback.setPilgrim(p);
-        feedback.setUser(u);
+        feedback.setPilgrim(pilgrim);
+        feedback.setUser(user);
         
         pilgrimFeedbacks.add(feedback);
-        p.setFeedbackMasterCollection(pilgrimFeedbacks);
+        pilgrim.setFeedbackMasterCollection(pilgrimFeedbacks);
         
         userFeedbacks.add(feedback);
-        u.setFeedbackMasterCollection(userFeedbacks);
+        user.setFeedbackMasterCollection(userFeedbacks);
         
         em.persist(feedback);
-        em.merge(u);
+        em.merge(user);
     }
 
     @Override
-    public void updateFeedback(FeedbackMaster feedback, Integer pilgrimId, Integer userId) {
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrimId);
-        Collection<FeedbackMaster> pilgrimFeedbacks = p.getFeedbackMasterCollection();
+    public void updateFeedback(FeedbackMaster feedback) {
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, feedback.getPilgrim().getPilgrimId());
+        UserMaster user = em.find(UserMaster.class, feedback.getUser().getUserId());
         
-        UserMaster u = em.find(UserMaster.class, userId);
-        Collection<FeedbackMaster> userFeedbacks = u.getFeedbackMasterCollection();
-        
-        feedback.setPilgrim(p);
-        feedback.setUser(u);
-        
-        p.setFeedbackMasterCollection(pilgrimFeedbacks);
-        u.setFeedbackMasterCollection(userFeedbacks);
+        feedback.setPilgrim(pilgrim);
+        feedback.setUser(user);
         
         em.merge(feedback);
     }
 
     @Override
-    public void removeFeedback(Integer feedbackId, Integer pilgrimId, Integer userId) {
-        FeedbackMaster f = em.find(FeedbackMaster.class, feedbackId);
+    public void removeFeedback(Integer feedbackId) {
+        FeedbackMaster feedback = em.find(FeedbackMaster.class, feedbackId);
         
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrimId);
-        Collection<FeedbackMaster> pilgrimFeedbacks = p.getFeedbackMasterCollection();
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, feedback.getPilgrim().getPilgrimId());
+        Collection<FeedbackMaster> pilgrimFeedbacks = pilgrim.getFeedbackMasterCollection();
         
-        UserMaster u = em.find(UserMaster.class, userId);
-        Collection<FeedbackMaster> userFeedbacks = u.getFeedbackMasterCollection();
+        UserMaster user = em.find(UserMaster.class, feedback.getUser().getUserId());
+        Collection<FeedbackMaster> userFeedbacks = user.getFeedbackMasterCollection();
 
-        if(pilgrimFeedbacks.contains(f) && userFeedbacks.contains(f)){
-            pilgrimFeedbacks.remove(f);
-            p.setFeedbackMasterCollection(pilgrimFeedbacks);
-            
-            userFeedbacks.remove(f);
-            u.setFeedbackMasterCollection(userFeedbacks);
-            
-            em.remove(f);
+        if(pilgrimFeedbacks.contains(feedback) && userFeedbacks.contains(feedback)){
+            pilgrimFeedbacks.remove(feedback);
+            userFeedbacks.remove(feedback);
+            em.remove(feedback);
         }
     }
     
@@ -94,130 +84,105 @@ public class CustomerBean implements CustomerBeanLocal {
     }
 
     @Override
-    public Collection<FeedbackMaster> getFeedbacksByPilgrim(PilgrimMaster pilgrim) {
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrim.getPilgrimId());
-        Collection<FeedbackMaster> pilgrimFeedbacks = p.getFeedbackMasterCollection();
+    public Collection<FeedbackMaster> getFeedbacksByPilgrim(Integer pilgrimId) {
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, pilgrimId);
+        Collection<FeedbackMaster> pilgrimFeedbacks = pilgrim.getFeedbackMasterCollection();
         return pilgrimFeedbacks;
     }
 
     @Override
-    public Collection<FeedbackMaster> getFeedbacksByUser(UserMaster user) {
-        UserMaster u = em.find(UserMaster.class, user.getUserId());
-        Collection<FeedbackMaster> userFeedbacks = u.getFeedbackMasterCollection();
+    public Collection<FeedbackMaster> getFeedbacksByUser(Integer userId) {
+        UserMaster user = em.find(UserMaster.class, userId);
+        Collection<FeedbackMaster> userFeedbacks = user.getFeedbackMasterCollection();
         return userFeedbacks;
     }
 
     @Override
-    public void addBooking(BookingMaster booking, Integer userId, Integer pilgrimId, Integer timeslotsDetailsId, Integer ticketId, Integer discountId) {
-        UserMaster u = em.find(UserMaster.class, userId);
-        Collection<BookingMaster> userBookings = u.getBookingMasterCollection();
+    public void addBooking(BookingMaster booking) {
+        UserMaster user = em.find(UserMaster.class, booking.getUser().getUserId());
+        Collection<BookingMaster> userBookings = user.getBookingMasterCollection();
         
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrimId);
-        Collection<BookingMaster> pilgrimBookings = p.getBookingMasterCollection();
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, booking.getPilgrim().getPilgrimId());
+        Collection<BookingMaster> pilgrimBookings = pilgrim.getBookingMasterCollection();
         
-        PilgrimTimeslotsDetails tsd = em.find(PilgrimTimeslotsDetails.class, timeslotsDetailsId);
-        Collection<BookingMaster> tsdBookings = tsd.getBookingMasterCollection();
+        PilgrimTimeslotsDetails timeslotsdetails = em.find(PilgrimTimeslotsDetails.class, booking.getTimeslotsDetails().getTimeslotsDetailsId());
+        Collection<BookingMaster> tsdBookings = timeslotsdetails.getBookingMasterCollection();
         
-        PilgrimTickets t = em.find(PilgrimTickets.class, ticketId);
-        Collection<BookingMaster> ticketBookings = t.getBookingMasterCollection();
+        PilgrimTickets pticket = em.find(PilgrimTickets.class, booking.getTicket().getTicketId());
+        Collection<BookingMaster> ticketBookings = pticket.getBookingMasterCollection();
         
-        DiscountMaster d = em.find(DiscountMaster.class, discountId);
-        Collection<BookingMaster> discountBookings = d.getBookingMasterCollection();
+        DiscountMaster discount = em.find(DiscountMaster.class, booking.getDiscount().getDiscountId());
+        Collection<BookingMaster> discountBookings = discount.getBookingMasterCollection();
         
-        booking.setUser(u);
-        booking.setPilgrim(p);
-        booking.setTimeslotsDetails(tsd);
-        booking.setTicket(t);
-        booking.setDiscount(d);
+        booking.setUser(user);
+        booking.setPilgrim(pilgrim);
+        booking.setTimeslotsDetails(timeslotsdetails);
+        booking.setTicket(pticket);
+        booking.setDiscount(discount);
         
         userBookings.add(booking);
-        u.setBookingMasterCollection(userBookings);
+        user.setBookingMasterCollection(userBookings);
         
         pilgrimBookings.add(booking);
-        p.setBookingMasterCollection(pilgrimBookings);
+        pilgrim.setBookingMasterCollection(pilgrimBookings);
         
         tsdBookings.add(booking);
-        tsd.setBookingMasterCollection(tsdBookings);
+        timeslotsdetails.setBookingMasterCollection(tsdBookings);
         
         ticketBookings.add(booking);
-        t.setBookingMasterCollection(ticketBookings);
+        pticket.setBookingMasterCollection(ticketBookings);
         
         discountBookings.add(booking);
-        d.setBookingMasterCollection(discountBookings);
+        discount.setBookingMasterCollection(discountBookings);
         
         em.persist(booking);
-        em.merge(u);
+        em.merge(user);
     }
 
     @Override
-    public void updateBooking(BookingMaster booking, Integer userId, Integer pilgrimId, Integer timeslotsDetailsId, Integer ticketId, Integer discountId) {
-        UserMaster u = em.find(UserMaster.class, userId);
-        Collection<BookingMaster> userBookings = u.getBookingMasterCollection();
+    public void updateBooking(BookingMaster booking) {
+        UserMaster user = em.find(UserMaster.class, booking.getUser().getUserId());
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, booking.getPilgrim().getPilgrimId());
+        PilgrimTimeslotsDetails timeslotsdetails = em.find(PilgrimTimeslotsDetails.class, booking.getTimeslotsDetails().getTimeslotsDetailsId());
+        PilgrimTickets pticket = em.find(PilgrimTickets.class, booking.getTicket().getTicketId());
+        DiscountMaster discount = em.find(DiscountMaster.class, booking.getDiscount().getDiscountId());
         
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrimId);
-        Collection<BookingMaster> pilgrimBookings = p.getBookingMasterCollection();
-        
-        PilgrimTimeslotsDetails tsd = em.find(PilgrimTimeslotsDetails.class, timeslotsDetailsId);
-        Collection<BookingMaster> tsdBookings = tsd.getBookingMasterCollection();
-        
-        PilgrimTickets t = em.find(PilgrimTickets.class, ticketId);
-        Collection<BookingMaster> ticketBookings = t.getBookingMasterCollection();
-        
-        DiscountMaster d = em.find(DiscountMaster.class, discountId);
-        Collection<BookingMaster> discountBookings = d.getBookingMasterCollection();
-        
-        booking.setUser(u);
-        booking.setPilgrim(p);
-        booking.setTimeslotsDetails(tsd);
-        booking.setTicket(t);
-        booking.setDiscount(d);
-        
-        u.setBookingMasterCollection(userBookings);
-        p.setBookingMasterCollection(pilgrimBookings);
-        tsd.setBookingMasterCollection(tsdBookings);
-        t.setBookingMasterCollection(ticketBookings);
-        d.setBookingMasterCollection(discountBookings);
+        booking.setUser(user);
+        booking.setPilgrim(pilgrim);
+        booking.setTimeslotsDetails(timeslotsdetails);
+        booking.setTicket(pticket);
+        booking.setDiscount(discount);
         
         em.merge(booking);
     }
 
     @Override
-    public void removeBooking(Integer bookingId, Integer userId, Integer pilgrimId, Integer timeslotsDetailsId, Integer ticketId, Integer discountId) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        BookingMaster b = em.find(BookingMaster.class, bookingId);
+    public void removeBooking(Integer bookingId) {
+        BookingMaster booking = em.find(BookingMaster.class, bookingId);
         
-        UserMaster u = em.find(UserMaster.class, userId);
-        Collection<BookingMaster> userBookings = u.getBookingMasterCollection();
+        UserMaster user = em.find(UserMaster.class, booking.getUser().getUserId());
+        Collection<BookingMaster> userBookings = user.getBookingMasterCollection();
         
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrimId);
-        Collection<BookingMaster> pilgrimBookings = p.getBookingMasterCollection();
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, booking.getPilgrim().getPilgrimId());
+        Collection<BookingMaster> pilgrimBookings = pilgrim.getBookingMasterCollection();
         
-        PilgrimTimeslotsDetails tsd = em.find(PilgrimTimeslotsDetails.class, timeslotsDetailsId);
-        Collection<BookingMaster> tsdBookings = tsd.getBookingMasterCollection();
+        PilgrimTimeslotsDetails timeslotsdetails = em.find(PilgrimTimeslotsDetails.class, booking.getTimeslotsDetails().getTimeslotsDetailsId());
+        Collection<BookingMaster> tsdBookings = timeslotsdetails.getBookingMasterCollection();
         
-        PilgrimTickets t = em.find(PilgrimTickets.class, ticketId);
-        Collection<BookingMaster> ticketBookings = t.getBookingMasterCollection();
+        PilgrimTickets pticket = em.find(PilgrimTickets.class, booking.getTicket().getTicketId());
+        Collection<BookingMaster> ticketBookings = pticket.getBookingMasterCollection();
         
-        DiscountMaster d = em.find(DiscountMaster.class, discountId);
-        Collection<BookingMaster> discountBookings = d.getBookingMasterCollection();
+        DiscountMaster discount = em.find(DiscountMaster.class, booking.getDiscount().getDiscountId());
+        Collection<BookingMaster> discountBookings = discount.getBookingMasterCollection();
         
-        if(userBookings.contains(b) && pilgrimBookings.contains(b) && tsdBookings.contains(b) && ticketBookings.contains(b) && discountBookings.contains(b)){
-            userBookings.remove(b);
-            u.setBookingMasterCollection(userBookings);
+        if(userBookings.contains(booking) && pilgrimBookings.contains(booking) && tsdBookings.contains(booking) && ticketBookings.contains(booking) && discountBookings.contains(booking)){
+            userBookings.remove(booking);
+            pilgrimBookings.remove(booking);
+            tsdBookings.remove(booking);
+            ticketBookings.remove(booking);
+            discountBookings.remove(booking);
             
-            pilgrimBookings.remove(b);
-            p.setBookingMasterCollection(pilgrimBookings);
-            
-            tsdBookings.remove(b);
-            tsd.setBookingMasterCollection(tsdBookings);
-            
-            ticketBookings.remove(b);
-            t.setBookingMasterCollection(ticketBookings);
-            
-            discountBookings.remove(b);
-            d.setBookingMasterCollection(discountBookings);
-            
-            em.remove(b);
+            em.remove(booking);
         }
     }
 
@@ -228,93 +193,79 @@ public class CustomerBean implements CustomerBeanLocal {
     }
 
     @Override
-    public Collection<BookingMaster> getBookingsByPilgrim(PilgrimMaster pilgrim) {
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrim.getPilgrimId());
-        Collection<BookingMaster> pilgrimBookings = p.getBookingMasterCollection();
+    public Collection<BookingMaster> getBookingsByPilgrim(Integer pilgrimId) {
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, pilgrimId);
+        Collection<BookingMaster> pilgrimBookings = pilgrim.getBookingMasterCollection();
         return pilgrimBookings;
     }
 
     @Override
-    public Collection<BookingMaster> getBookingByUser(UserMaster user) {
-        UserMaster u = em.find(UserMaster.class, user.getUserId());
-        Collection<BookingMaster> userBookings = u.getBookingMasterCollection();
+    public Collection<BookingMaster> getBookingByUser(Integer userId) {
+        UserMaster user = em.find(UserMaster.class, userId);
+        Collection<BookingMaster> userBookings = user.getBookingMasterCollection();
         return userBookings;
     }
 
     @Override
-    public void addPayment(PaymentMaster payment, Integer userId, Integer pilgrimId, Integer bookingId) {
-        UserMaster u = em.find(UserMaster.class, userId);
-        Collection<PaymentMaster> userPayments = u.getPaymentMasterCollection();
+    public void addPayment(PaymentMaster payment) {
+        UserMaster user = em.find(UserMaster.class, payment.getUser().getUserId());
+        Collection<PaymentMaster> userPayments = user.getPaymentMasterCollection();
         
-        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, pilgrimId);
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, payment.getPilgrim().getPilgrimId());
         Collection<PaymentMaster> pilgrimPayments = pilgrim.getPaymentMasterCollection();
         
-        BookingMaster b = em.find(BookingMaster.class, bookingId);
-        Collection<PaymentMaster> bookingPayments = b.getPaymentMasterCollection();
+        BookingMaster booking = em.find(BookingMaster.class, payment.getBooking().getBookingId());
+        Collection<PaymentMaster> bookingPayments = booking.getPaymentMasterCollection();
         
-        payment.setUser(u);
+        payment.setUser(user);
         payment.setPilgrim(pilgrim);
-        payment.setBooking(b);
+        payment.setBooking(booking);
         
         userPayments.add(payment);
-        u.setPaymentMasterCollection(userPayments);
+        user.setPaymentMasterCollection(userPayments);
         
         pilgrimPayments.add(payment);
         pilgrim.setPaymentMasterCollection(pilgrimPayments);
         
         bookingPayments.add(payment);
-        b.setPaymentMasterCollection(bookingPayments);
+        booking.setPaymentMasterCollection(bookingPayments);
         
         em.persist(payment);
-        em.merge(u);
+        em.merge(user);
     }
 
     @Override
-    public void updatePayment(PaymentMaster payment, Integer userId, Integer pilgrimId, Integer bookingId) {
-        UserMaster u = em.find(UserMaster.class, userId);
-        Collection<PaymentMaster> userPayments = u.getPaymentMasterCollection();
+    public void updatePayment(PaymentMaster payment) {
+        UserMaster user = em.find(UserMaster.class, payment.getUser().getUserId());
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, payment.getPilgrim().getPilgrimId());
+        BookingMaster booking = em.find(BookingMaster.class, payment.getBooking().getBookingId());
         
-        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, pilgrimId);
-        Collection<PaymentMaster> pilgrimPayments = pilgrim.getPaymentMasterCollection();
-        
-        BookingMaster b = em.find(BookingMaster.class, bookingId);
-        Collection<PaymentMaster> bookingPayments = b.getPaymentMasterCollection();
-        
-        payment.setUser(u);
+        payment.setUser(user);
         payment.setPilgrim(pilgrim);
-        payment.setBooking(b);
-
-        u.setPaymentMasterCollection(userPayments);
-        pilgrim.setPaymentMasterCollection(pilgrimPayments);
-        b.setPaymentMasterCollection(bookingPayments);
+        payment.setBooking(booking);
         
         em.merge(payment);
     }
 
     @Override
-    public void removePayment(Integer paymentId, Integer userId, Integer pilgrimId, Integer bookingId) {
-        PaymentMaster p = em.find(PaymentMaster.class, paymentId);
+    public void removePayment(Integer paymentId) {
+        PaymentMaster payment = em.find(PaymentMaster.class, paymentId);
         
-        UserMaster u = em.find(UserMaster.class, userId);
-        Collection<PaymentMaster> userPayments = u.getPaymentMasterCollection();
+        UserMaster user = em.find(UserMaster.class, payment.getUser().getUserId());
+        Collection<PaymentMaster> userPayments = user.getPaymentMasterCollection();
         
-        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, pilgrimId);
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, payment.getPilgrim().getPilgrimId());
         Collection<PaymentMaster> pilgrimPayments = pilgrim.getPaymentMasterCollection();
         
-        BookingMaster b = em.find(BookingMaster.class, bookingId);
-        Collection<PaymentMaster> bookingPayments = b.getPaymentMasterCollection();
+        BookingMaster booking = em.find(BookingMaster.class, payment.getBooking().getBookingId());
+        Collection<PaymentMaster> bookingPayments = booking.getPaymentMasterCollection();
         
-        if(userPayments.contains(p) && pilgrimPayments.contains(p) && bookingPayments.contains(p)){
-            userPayments.remove(p);
-            u.setPaymentMasterCollection(userPayments);
+        if(userPayments.contains(payment) && pilgrimPayments.contains(payment) && bookingPayments.contains(payment)){
+            userPayments.remove(payment);
+            pilgrimPayments.remove(payment);
+            bookingPayments.remove(payment);
             
-            pilgrimPayments.remove(p);
-            pilgrim.setPaymentMasterCollection(pilgrimPayments);
-            
-            bookingPayments.remove(p);
-            b.setPaymentMasterCollection(bookingPayments);
-            
-            em.remove(p);
+            em.remove(payment);
         }
     }
 
@@ -325,23 +276,23 @@ public class CustomerBean implements CustomerBeanLocal {
     }
 
     @Override
-    public Collection<PaymentMaster> getPaymentsByUser(UserMaster user) {
-        UserMaster u = em.find(UserMaster.class, user.getUserId());
-        Collection<PaymentMaster> userPayments = u.getPaymentMasterCollection();
+    public Collection<PaymentMaster> getPaymentsByUser(Integer userId) {
+        UserMaster user = em.find(UserMaster.class, userId);
+        Collection<PaymentMaster> userPayments = user.getPaymentMasterCollection();
         return userPayments;
     }
 
     @Override
-    public Collection<PaymentMaster> getPaymentsByPilgrim(PilgrimMaster pilgrim) {
-        PilgrimMaster p = em.find(PilgrimMaster.class, pilgrim.getPilgrimId());
-        Collection<PaymentMaster> pilgrimPayments = p.getPaymentMasterCollection();
+    public Collection<PaymentMaster> getPaymentsByPilgrim(Integer pilgrimId) {
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, pilgrimId);
+        Collection<PaymentMaster> pilgrimPayments = pilgrim.getPaymentMasterCollection();
         return pilgrimPayments;
     }
 
     @Override
-    public Collection<PaymentMaster> getPaymentsByBooking(BookingMaster booking) {
-        BookingMaster b = em.find(BookingMaster.class, booking.getBookingId());
-        Collection<PaymentMaster> bookingPayments = b.getPaymentMasterCollection();
+    public Collection<PaymentMaster> getPaymentsByBooking(Integer bookingId) {
+        BookingMaster booking = em.find(BookingMaster.class, bookingId);
+        Collection<PaymentMaster> bookingPayments = booking.getPaymentMasterCollection();
         return bookingPayments;
     }
 }
