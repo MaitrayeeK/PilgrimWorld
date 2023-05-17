@@ -5,6 +5,7 @@
 package com.pilgrim.restapis;
 
 import com.pilgrim.ejb.AdminBeanLocal;
+import com.pilgrim.entities.StateMaster;
 import com.pilgrim.entities.UserMaster;
 import java.util.Collection;
 import javax.ejb.EJB;
@@ -16,6 +17,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import com.pilgrim.helper.Request;
 import com.pilgrim.helper.Response;
+import javax.ws.rs.PathParam;
 
 /**
  * REST Web Service
@@ -32,137 +34,42 @@ public class AdminResource {
     public AdminResource() {
     }
 
-//    @GET
-//    @Path("users")
-//    @Produces("application/json")
-//    public Response getAllCitiesByState() {
-//        return Response.status(200).build();
-//    }
-//
-//    @GET
-//    @Path("users")
-//    @Produces("application/json")
-//    public Response getAllState() {
-//        return Response.status(200).build();
-//    }
-//
-//    @GET
-//    @Path("users")
-//    @Produces("application/json")
-//    public Response getAllGroups() {
-//        return Response.status(200).build();
-//    }
-//
-//    @POST
-//    @Path("adduser")
-//    @Consumes("application/json")
-//    @Produces("application/json")
-//    public Response addCommission(CommissionMaster commission) {
-//        return Response.status(200).build();
-//    }
-//
-//    @POST
-//    @Path("adduser")
-//    @Consumes("application/json")
-//    @Produces("application/json")
-//    public Response updateCommission(CommissionMaster commission) {
-//        return Response.status(200).build();
-//    }
-//
-//    public Response removeCommission(CommissionMaster commission) {
-//        return Response.status(200).build();
-//    }
-//
-//    @GET
-//    @Path("users")
-//    @Produces("application/json")
-//    public Response getAllCommissions() {
-//        return Response.status(200).build();
-//    }
-//
-//    @POST
-//    @Path("adduser")
-//    @Consumes("application/json")
-//    @Produces("application/json")
-//    public Response addMenu(MenuMaster menu) {
-//        return Response.status(200).build();
-//    }
-//
-//    @POST
-//    @Path("adduser")
-//    @Consumes("application/json")
-//    @Produces("application/json")
-//    public Response updateMenu(MenuMaster menu) {
-//        return Response.status(200).build();
-//    }
-//
-//    public Response removeMenu(MenuMaster menu) {
-//        return Response.status(200).build();
-//    }
-//
-//    @GET
-//    @Path("users")
-//    @Produces("application/json")
-//    public Response getAllMenu() {
-//        return Response.status(200).build();
-//    }
-//
-//    @POST
-//    @Path("adduser")
-//    @Consumes("application/json")
-//    @Produces("application/json")
-//    public Response addProfit(ProfitMaster profit) {
-//        return Response.status(200).build();
-//    }
-//
-//    @POST
-//    @Path("adduser")
-//    @Consumes("application/json")
-//    @Produces("application/json")
-//    public Response updateProfit(ProfitMaster profit) {
-//        return Response.status(200).build();
-//    }
-//
-//    public Response removeProfit(ProfitMaster profit) {
-//        return Response.status(200).build();
-//    }
-//
-//    @GET
-//    @Path("users")
-//    @Produces("application/json")
-//    public Response getAllProfits() {
-//        return Response.status(200).build();
-//    }
-//
-//    @POST
-//    @Path("adduser")
-//    @Consumes("application/json")
-//    @Produces("application/json")
-//    public Response addUserrights(UserrightsMaster userrights) {
-//        return Response.status(200).build();
-//    }
-//
-//    @POST
-//    @Path("adduser")
-//    @Consumes("application/json")
-//    @Produces("application/json")
-//    public Response updateUserrights(UserrightsMaster userrights) {
-//        return Response.status(200).build();
-//    }
-//
-//    public Response removeUserrights(UserrightsMaster userrights) {
-//        return Response.status(200).build();
-//    }
-//
-//    @GET
-//    @Path("users")
-//    @Produces("application/json")
-//    public Response getAllUserrights() {
-//        return Response.status(200).build();
-//    }
-//
+    @GET
+    @Path("cities/{stateid}")
+    @Produces("application/json")
+    public Response getAllCitiesByState(@PathParam("stateid") Integer state) {
+        Response response = new Response();
+        try {
+            response.setResult(adminBeanLocal.getAllCitiesByState(state));
+            response.setMessage("Cities fetched successfully!");
+            response.setStatus(true);
+        } catch (Exception e) {
+            response.setMessage("Failed fetching cities!");
+            response.setStatus(false);
+            response.setResult(e);
+        }
+        return response;
+    }
+
+    @GET
+    @Path("states")
+    @Produces("application/json")
+    public Response<Collection<StateMaster>> getAllState() {
+        Response response = new Response();
+        try {
+            response.setResult(adminBeanLocal.getAllState());
+            response.setMessage("States fetched successfully!");
+            response.setStatus(true);
+        } catch (Exception e) {
+            response.setMessage("Failed fetching states!");
+            response.setStatus(false);
+            response.setResult(e);
+        }
+        return response;
+    }
+
     @POST
-    @Path("user/add")
+    @Path("users/add")
     @Consumes("application/json")
     @Produces("application/json")
     public Response adduser(Request<UserMaster> requestbody) {
@@ -181,7 +88,7 @@ public class AdminResource {
     }
 
     @POST
-    @Path("user/update")
+    @Path("users/update")
     @Consumes("application/json")
     @Produces("application/json")
     public Response updateuser(Request<UserMaster> requestbody) {

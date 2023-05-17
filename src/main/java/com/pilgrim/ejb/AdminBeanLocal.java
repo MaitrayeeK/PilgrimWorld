@@ -56,6 +56,6 @@ public interface AdminBeanLocal {
     void addUser(UserMaster user);
     void updateUser(UserMaster user);
     void removeUser(Integer user);
-
+    UserMaster getUser(Integer user);
     Collection<UserMaster> getAllUser();
 }
