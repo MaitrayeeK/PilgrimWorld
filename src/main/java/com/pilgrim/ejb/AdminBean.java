@@ -15,7 +15,6 @@ import com.pilgrim.entities.ProfitMaster;
 import com.pilgrim.entities.StateMaster;
 import com.pilgrim.entities.UserMaster;
 import com.pilgrim.entities.UserrightsMaster;
-import com.pilgrim.helper.Response;
 import java.util.Collection;
 import java.util.Date;
 import javax.ejb.Stateless;
@@ -246,7 +245,7 @@ public class AdminBean implements AdminBeanLocal {
         userCollection = c.getUserMasterCollection();
         userCollection.add(user);
         c.setUserMasterCollection(userCollection);
-
+        
         em.persist(user);
         em.merge(user);
     }
@@ -282,7 +281,12 @@ public class AdminBean implements AdminBeanLocal {
         }
         em.remove(user);
     }
-
+    
+    @Override
+    public UserMaster getUser(Integer id) {
+        return em.find(UserMaster.class, id);
+    }
+    
     @Override
     public Collection<UserMaster> getAllUser() {
         return em.createNamedQuery("UserMaster.findAll").getResultList();
