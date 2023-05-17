@@ -57,7 +57,7 @@ public class AdminResource {
     public Response<Collection<StateMaster>> getAllState() {
         Response response = new Response();
         try {
-            response.setResult(adminBeanLocal.getAllState());
+            response.setResult(adminBeanLocal.getAllStates());
             response.setMessage("States fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
