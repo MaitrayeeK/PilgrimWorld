@@ -36,9 +36,14 @@ public class AdminBean implements AdminBeanLocal {
         StateMaster state = em.find(StateMaster.class, stateid);
         return state.getCityMasterCollection();
     }
+    
+    @Override
+    public Collection<CityMaster> getAllCities() {
+        return em.createNamedQuery("CityMaster.findAll").getResultList();
+    }
 
     @Override
-    public Collection<StateMaster> getAllState() {
+    public Collection<StateMaster> getAllStates() {
         return em.createNamedQuery("StateMaster.findAll").getResultList();
     }
 
@@ -98,6 +103,12 @@ public class AdminBean implements AdminBeanLocal {
     @Override
     public Collection<CommissionMaster> getAllCommissions() {
         return em.createNamedQuery("CommissionMaster.findAll").getResultList();
+    }
+    
+    @Override
+    public Collection<CommissionMaster> getCommissionsByPilgrim(Integer pilgrimId) {
+        PilgrimMaster pilgrim = em.find(PilgrimMaster.class, pilgrimId);
+        return pilgrim.getCommissionMasterCollection();
     }
 
     @Override
@@ -290,5 +301,16 @@ public class AdminBean implements AdminBeanLocal {
     @Override
     public Collection<UserMaster> getAllUser() {
         return em.createNamedQuery("UserMaster.findAll").getResultList();
+    }
+
+    @Override
+    public UserMaster getUserByUsername(String username) {
+        return (UserMaster) em.createNamedQuery("UserMaster.findByUsername").setParameter("username", username).getResultList().iterator().next();
+    }
+
+    @Override
+    public Collection<UserMaster> getUsersByGroup(Integer groupId) {
+        GroupMaster group = em.find(GroupMaster.class, groupId);
+        return group.getUserMasterCollection();
     }
 }

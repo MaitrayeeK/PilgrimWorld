@@ -23,9 +23,9 @@ import javax.ejb.Local;
 public interface ClientBeanLocal {
     
     //operations for pilgrim_master
-    public void addPilgrim(PilgrimMaster pilgrim, Integer userId, Integer stateId, Integer cityId);
-    public void updatePilgrim(PilgrimMaster pilgrim, Integer userId, Integer stateId, Integer cityId);
-    public void removePilgrim(Integer pilgrimId, Integer userId, Integer stateId, Integer cityId);
+    public void addPilgrim(PilgrimMaster pilgrim);
+    public void updatePilgrim(PilgrimMaster pilgrim);
+    public void removePilgrim(Integer pilgrimId);
     
     Collection<PilgrimMaster> getPilgrims();
     Collection<PilgrimMaster> getPilgrimsByState(Integer stateId);
@@ -33,52 +33,52 @@ public interface ClientBeanLocal {
     Collection<PilgrimMaster> getPilgrimsByStateCity(Integer StateId, Integer cityId);
     
     //operations for pilgrim_images
-    public void addPilgrimImages(PilgrimImages pimages, Integer pilgrimId);
-    public void updatePilgrimImages(PilgrimImages pimages, Integer pilgrimId);
-    public void removePilgrimImages(Integer pilgrimImageId, Integer pilgrimId);
+    public void addPilgrimImages(PilgrimImages pimages);
+    public void updatePilgrimImages(PilgrimImages pimages);
+    public void removePilgrimImages(Integer pilgrimImageId);
     
-    Collection<PilgrimImages> getPilgrimImages(PilgrimMaster pilgrim);
+    Collection<PilgrimImages> getPilgrimImages(Integer pilgrimid);
     
     //operations for pilgrim_rooms
-    public void addPilgrimRooms(PilgrimRooms prooms, Integer pilgrimId);
-    public void updatePilgrimRooms(PilgrimRooms prooms, Integer pilgrimId);
-    public void removePilgrimRooms(Integer pilgrimRoomId, Integer pilgrimId);
+    public void addPilgrimRooms(PilgrimRooms prooms);
+    public void updatePilgrimRooms(PilgrimRooms prooms);
+    public void removePilgrimRooms(Integer pilgrimRoomId);
     
-    Collection<PilgrimRooms> getPilgrimRooms(PilgrimMaster pilgrim);
+    Collection<PilgrimRooms> getPilgrimRooms(Integer pilgrimid);
     
     //operations for pilgrim_timeslots
-    public void addPilgrimTimeSlots(PilgrimTimeslots ptimeslots, Integer pilgrimId);
-    public void updatePilgrimTimeSlots(PilgrimTimeslots ptimeslots, Integer pilgrimId);
-    public void removePilgrimTimeSlots(Integer timeslotsId, Integer pilgrimId);
+    public void addPilgrimTimeslots(PilgrimTimeslots ptimeslots);
+    public void updatePilgrimTimeslots(PilgrimTimeslots ptimeslots);
+    public void removePilgrimTimeslots(Integer timeslotsId);
     
-    Collection<PilgrimTimeslots> getPilgrimTimeslots(PilgrimMaster pilgrim);
+    Collection<PilgrimTimeslots> getPilgrimTimeslots(Integer pilgrimid);
     
     //operations for pilgrim_timeslots_details
-    public void addPilgrimTimeslotsDetails(PilgrimTimeslotsDetails timeslotsdetails, Integer pilgrimTimeslotsId);
-    public void updatepilgrimTimeslotsDetails(PilgrimTimeslotsDetails timeslotsdetails, Integer pilgrimTimeslotsId);
-    public void removePilgrimTimeslotsDetails(Integer timeslotsDetailsId, Integer pilgrimTimeslotsId);
+    public void addPilgrimTimeslotsDetails(PilgrimTimeslotsDetails timeslotsdetails);
+    public void updatepilgrimTimeslotsDetails(PilgrimTimeslotsDetails timeslotsdetails);
+    public void removePilgrimTimeslotsDetails(Integer timeslotsDetailsId);
     
-    Collection<PilgrimTimeslotsDetails> getPilgrimTimeslotsDetails(PilgrimTimeslots timeslots);
+    Collection<PilgrimTimeslotsDetails> getPilgrimTimeslotsDetails(Integer timeslotsid);
     
     //operations from discount_master
     public void addDiscount(DiscountMaster discount);
     public void updateDiscount(DiscountMaster discount);
-    public void removeDiscount(DiscountMaster discount);
+    public void removeDiscount(Integer discountid);
     
     Collection<DiscountMaster> getDiscounts();
     
     //operations for pilgrim_tickets
-    public void addPilgrimTicket(PilgrimTickets ptickets, Integer pilgrimId, Integer timeslotsDetailsId);
-    public void updatePilgrimTicket(PilgrimTickets ptickets, Integer pilgrimId, Integer timeslotsDetailsId);
-    public void removePilgrimTicket(Integer ticketId, Integer pilgrimId, Integer timeslotsDetailsId);
+    public void addPilgrimTicket(PilgrimTickets ptickets);
+    public void updatePilgrimTicket(PilgrimTickets ptickets);
+    public void removePilgrimTicket(Integer ticketId);
     
-    Collection<PilgrimTickets> getTicketsByPilgrim(PilgrimMaster pilgrim);
+    Collection<PilgrimTickets> getTicketsByPilgrim(Integer pilgrimid);
     
     //operations for advertisement_master
-    public void addAdvertisement(AdvertisementMaster advertisement, Integer pilgrimId);
-    public void updateAdvertisement(AdvertisementMaster advertisement, Integer pilgrimId);
-    public void removeAdvertisement(Integer advertisementId, Integer pilgrimId);
+    public void addAdvertisement(AdvertisementMaster advertisement);
+    public void updateAdvertisement(AdvertisementMaster advertisement);
+    public void removeAdvertisement(Integer advertisementId);
     
     public Collection<AdvertisementMaster> getAdvertisements();
-    public Collection<AdvertisementMaster> getAdvertisementByPilgrim(PilgrimMaster pilgrim);
+    public Collection<AdvertisementMaster> getAdvertisementByPilgrim(Integer pilgrimid);
 }

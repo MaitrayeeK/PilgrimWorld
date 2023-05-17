@@ -7,8 +7,6 @@ package com.pilgrim.ejb;
 import com.pilgrim.entities.BookingMaster;
 import com.pilgrim.entities.FeedbackMaster;
 import com.pilgrim.entities.PaymentMaster;
-import com.pilgrim.entities.PilgrimMaster;
-import com.pilgrim.entities.UserMaster;
 import java.util.Collection;
 import javax.ejb.Local;
 
@@ -20,30 +18,30 @@ import javax.ejb.Local;
 public interface CustomerBeanLocal {
     
     //operations for feedback_master
-    public void addFeedback(FeedbackMaster feedback, Integer pilgrimId, Integer userId);
-    public void updateFeedback(FeedbackMaster feedback, Integer pilgrimId, Integer userId);
-    public void removeFeedback(Integer feedbackId, Integer pilgrimId, Integer userId);
+    public void addFeedback(FeedbackMaster feedback);
+    public void updateFeedback(FeedbackMaster feedback);
+    public void removeFeedback(Integer feedbackId);
     
     Collection<FeedbackMaster> getFeedbacks();
-    Collection<FeedbackMaster> getFeedbacksByPilgrim(PilgrimMaster pilgrim);
-    Collection<FeedbackMaster> getFeedbacksByUser(UserMaster user);
+    Collection<FeedbackMaster> getFeedbacksByPilgrim(Integer pilgrimId);
+    Collection<FeedbackMaster> getFeedbacksByUser(Integer userId);
     
     //operations for booking_master
-    public void addBooking(BookingMaster booking, Integer userId, Integer pilgrimId, Integer timeslotsDetailsId, Integer ticketId, Integer discountId);
-    public void updateBooking(BookingMaster booking, Integer userId, Integer pilgrimId, Integer timeslotsDetailsId, Integer ticketId, Integer discountId);
-    public void removeBooking(Integer bookingId, Integer userId, Integer pilgrimId, Integer timeslotsDetailsId, Integer ticketId, Integer discountId);
+    public void addBooking(BookingMaster booking);
+    public void updateBooking(BookingMaster booking);
+    public void removeBooking(Integer bookingId);
     
     Collection<BookingMaster> getBookings();
-    Collection<BookingMaster> getBookingsByPilgrim(PilgrimMaster pilgrim);
-    Collection<BookingMaster> getBookingByUser(UserMaster user);
+    Collection<BookingMaster> getBookingsByPilgrim(Integer pilgrimId);
+    Collection<BookingMaster> getBookingByUser(Integer userId);
     
     //collections for payment_master
-    public void addPayment(PaymentMaster payment, Integer userId, Integer pilgrimId, Integer bookingId);
-    public void updatePayment(PaymentMaster payment, Integer userId, Integer pilgrimId, Integer bookingId);
-    public void removePayment(Integer paymentId, Integer userId, Integer pilgrimId, Integer bookingId);
+    public void addPayment(PaymentMaster payment);
+    public void updatePayment(PaymentMaster payment);
+    public void removePayment(Integer paymentId);
     
     Collection<PaymentMaster> getPayments();
-    Collection<PaymentMaster> getPaymentsByUser(UserMaster user);
-    Collection<PaymentMaster> getPaymentsByPilgrim(PilgrimMaster pilgrim);
-    Collection<PaymentMaster> getPaymentsByBooking(BookingMaster booking);
+    Collection<PaymentMaster> getPaymentsByUser(Integer userId);
+    Collection<PaymentMaster> getPaymentsByPilgrim(Integer pilgrimId);
+    Collection<PaymentMaster> getPaymentsByBooking(Integer bookingId);
 }

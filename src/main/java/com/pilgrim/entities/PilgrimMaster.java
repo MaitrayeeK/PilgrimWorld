@@ -38,6 +38,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PilgrimMaster.findByPilgrimId", query = "SELECT p FROM PilgrimMaster p WHERE p.pilgrimId = :pilgrimId"),
     @NamedQuery(name = "PilgrimMaster.findByPilgrimName", query = "SELECT p FROM PilgrimMaster p WHERE p.pilgrimName = :pilgrimName"),
     @NamedQuery(name = "PilgrimMaster.findByAddress", query = "SELECT p FROM PilgrimMaster p WHERE p.address = :address"),
+    @NamedQuery(name = "PilgrimMaster.findByStateCity", query = "SELECT p FROM PilgrimMaster p WHERE p.state = :state AND p.city = :city"),
     @NamedQuery(name = "PilgrimMaster.findByPilgrimImage", query = "SELECT p FROM PilgrimMaster p WHERE p.pilgrimImage = :pilgrimImage"),
     @NamedQuery(name = "PilgrimMaster.findByCreatedDate", query = "SELECT p FROM PilgrimMaster p WHERE p.createdDate = :createdDate"),
     @NamedQuery(name = "PilgrimMaster.findByUpdatedDate", query = "SELECT p FROM PilgrimMaster p WHERE p.updatedDate = :updatedDate")})
