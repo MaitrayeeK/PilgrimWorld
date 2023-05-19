@@ -71,10 +71,9 @@ public class Security {
 
         try {
             if (tokenProvider.validateToken(securityData.getToken())) {
-                JWTCredential credential = tokenProvider.getCredential(securityData.getToken());
+//                JWTCredential credential = tokenProvider.getCredential(securityData.getToken());
                 System.out.println("In SecureAuthentication - In validateToken() method - Token Validated!!!");
-                return new SecurityData(Status.VALID, credential);
-//                return context.notifyContainerAboutLogin(credential.getPrincipal(), credential.getAuthorities());
+                return new SecurityData(Status.VALID);
             }
             //token invalid
             return new SecurityData(Status.INVALID);

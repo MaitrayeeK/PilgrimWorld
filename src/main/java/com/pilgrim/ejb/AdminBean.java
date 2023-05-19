@@ -307,6 +307,28 @@ public class AdminBean implements AdminBeanLocal {
     public UserMaster getUserByUsername(String username) {
         return (UserMaster) em.createNamedQuery("UserMaster.findByUsername").setParameter("username", username).getResultList().iterator().next();
     }
+    
+    @Override
+    public boolean checkifUsernameExists(String username) {
+        Collection<UserMaster> users = em.createNamedQuery("UserMaster.findByUsername").setParameter("username", username).getResultList();
+        if(!users.isEmpty()) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean checkifEmailExists(String email) {
+        Collection<UserMaster> users = em.createNamedQuery("UserMaster.findByEmail").setParameter("email", email).getResultList();
+        if(!users.isEmpty()) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     @Override
     public Collection<UserMaster> getUsersByGroup(Integer groupId) {
