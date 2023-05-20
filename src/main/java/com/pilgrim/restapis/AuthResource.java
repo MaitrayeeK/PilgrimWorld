@@ -74,8 +74,6 @@ public class AuthResource {
 
             SecurityData resSecurityData = security.validateToken(requestbody);
 
-            response.setResult(resSecurityData);
-
             if (resSecurityData.getStatus() == Status.VALID) {
                 response.setMessage("Token validated successfully!");
                 response.setStatus(true);

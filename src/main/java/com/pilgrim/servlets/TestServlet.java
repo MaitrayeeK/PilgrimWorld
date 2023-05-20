@@ -24,7 +24,7 @@ public class TestServlet extends HttpServlet {
     
     @EJB
     AdminBeanLocal ejbBeanLocal2;
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

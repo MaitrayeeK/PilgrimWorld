@@ -63,4 +63,7 @@ public interface AdminBeanLocal {
     Collection<UserMaster> getAllUser();
     UserMaster getUserByUsername(String username);
     Collection<UserMaster> getUsersByGroup(Integer groupId);
+    
+    boolean checkifUsernameExists(String username);
+    boolean checkifEmailExists(String email);
 }
