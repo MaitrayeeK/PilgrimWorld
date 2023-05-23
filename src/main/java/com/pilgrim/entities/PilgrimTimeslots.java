@@ -35,7 +35,6 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "PilgrimTimeslots.findAll", query = "SELECT p FROM PilgrimTimeslots p"),
     @NamedQuery(name = "PilgrimTimeslots.findByTimeslotsId", query = "SELECT p FROM PilgrimTimeslots p WHERE p.timeslotsId = :timeslotsId"),
-    @NamedQuery(name = "PilgrimTimeslots.findByWeekDate", query = "SELECT p FROM PilgrimTimeslots p WHERE p.weekDate = :weekDate"),
     @NamedQuery(name = "PilgrimTimeslots.findByCreatedDate", query = "SELECT p FROM PilgrimTimeslots p WHERE p.createdDate = :createdDate"),
     @NamedQuery(name = "PilgrimTimeslots.findByUpdatedDate", query = "SELECT p FROM PilgrimTimeslots p WHERE p.updatedDate = :updatedDate")})
 public class PilgrimTimeslots implements Serializable {
@@ -46,10 +45,14 @@ public class PilgrimTimeslots implements Serializable {
     @Basic(optional = false)
     @Column(name = "timeslots_id")
     private Integer timeslotsId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "week_date")
-    private int weekDate;
+    @Column(name = "weekday")
+    private Integer weekday;
+    @Column(name = "from_date")
+    @Temporal(TemporalType.DATE)
+    private Date fromDate;
+    @Column(name = "to_date")
+    @Temporal(TemporalType.DATE)
+    private Date toDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_date")
@@ -73,9 +76,8 @@ public class PilgrimTimeslots implements Serializable {
         this.timeslotsId = timeslotsId;
     }
 
-    public PilgrimTimeslots(Integer timeslotsId, int weekDate, Date createdDate, Date updatedDate) {
+    public PilgrimTimeslots(Integer timeslotsId, Date createdDate, Date updatedDate) {
         this.timeslotsId = timeslotsId;
-        this.weekDate = weekDate;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
     }
@@ -88,12 +90,28 @@ public class PilgrimTimeslots implements Serializable {
         this.timeslotsId = timeslotsId;
     }
 
-    public int getWeekDate() {
-        return weekDate;
+    public Integer getWeekday() {
+        return weekday;
     }
 
-    public void setWeekDate(int weekDate) {
-        this.weekDate = weekDate;
+    public void setWeekday(Integer weekday) {
+        this.weekday = weekday;
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 
     public Date getCreatedDate() {
@@ -119,7 +137,7 @@ public class PilgrimTimeslots implements Serializable {
     public void setPilgrim(PilgrimMaster pilgrim) {
         this.pilgrim = pilgrim;
     }
-    
+
     @JsonbTransient
     public Collection<PilgrimTimeslotsDetails> getPilgrimTimeslotsDetailsCollection() {
         return pilgrimTimeslotsDetailsCollection;

@@ -110,7 +110,7 @@ public class GroupMaster implements Serializable {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
-    
+
     @JsonbTransient
     public Collection<UserrightsMaster> getUserrightsMasterCollection() {
         return userrightsMasterCollection;
