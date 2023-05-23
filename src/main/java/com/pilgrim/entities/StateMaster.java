@@ -112,7 +112,7 @@ public class StateMaster implements Serializable {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
-    
+
     @JsonbTransient
     public Collection<PilgrimMaster> getPilgrimMasterCollection() {
         return pilgrimMasterCollection;
@@ -121,7 +121,7 @@ public class StateMaster implements Serializable {
     public void setPilgrimMasterCollection(Collection<PilgrimMaster> pilgrimMasterCollection) {
         this.pilgrimMasterCollection = pilgrimMasterCollection;
     }
-    
+
     @JsonbTransient
     public Collection<CityMaster> getCityMasterCollection() {
         return cityMasterCollection;
@@ -130,7 +130,7 @@ public class StateMaster implements Serializable {
     public void setCityMasterCollection(Collection<CityMaster> cityMasterCollection) {
         this.cityMasterCollection = cityMasterCollection;
     }
-    
+
     @JsonbTransient
     public Collection<UserMaster> getUserMasterCollection() {
         return userMasterCollection;

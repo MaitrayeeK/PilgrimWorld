@@ -35,9 +35,6 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "PilgrimTimeslotsDetails.findAll", query = "SELECT p FROM PilgrimTimeslotsDetails p"),
     @NamedQuery(name = "PilgrimTimeslotsDetails.findByTimeslotsDetailsId", query = "SELECT p FROM PilgrimTimeslotsDetails p WHERE p.timeslotsDetailsId = :timeslotsDetailsId"),
-    @NamedQuery(name = "PilgrimTimeslotsDetails.findByWeekday", query = "SELECT p FROM PilgrimTimeslotsDetails p WHERE p.weekday = :weekday"),
-    @NamedQuery(name = "PilgrimTimeslotsDetails.findByFromDate", query = "SELECT p FROM PilgrimTimeslotsDetails p WHERE p.fromDate = :fromDate"),
-    @NamedQuery(name = "PilgrimTimeslotsDetails.findByToDate", query = "SELECT p FROM PilgrimTimeslotsDetails p WHERE p.toDate = :toDate"),
     @NamedQuery(name = "PilgrimTimeslotsDetails.findByFromTime", query = "SELECT p FROM PilgrimTimeslotsDetails p WHERE p.fromTime = :fromTime"),
     @NamedQuery(name = "PilgrimTimeslotsDetails.findByToTime", query = "SELECT p FROM PilgrimTimeslotsDetails p WHERE p.toTime = :toTime"),
     @NamedQuery(name = "PilgrimTimeslotsDetails.findByCreatedDate", query = "SELECT p FROM PilgrimTimeslotsDetails p WHERE p.createdDate = :createdDate"),
@@ -50,14 +47,6 @@ public class PilgrimTimeslotsDetails implements Serializable {
     @Basic(optional = false)
     @Column(name = "timeslots_details_id")
     private Integer timeslotsDetailsId;
-    @Column(name = "weekday")
-    private Integer weekday;
-    @Column(name = "from_date")
-    @Temporal(TemporalType.DATE)
-    private Date fromDate;
-    @Column(name = "to_date")
-    @Temporal(TemporalType.DATE)
-    private Date toDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "from_time")
@@ -109,30 +98,6 @@ public class PilgrimTimeslotsDetails implements Serializable {
         this.timeslotsDetailsId = timeslotsDetailsId;
     }
 
-    public Integer getWeekday() {
-        return weekday;
-    }
-
-    public void setWeekday(Integer weekday) {
-        this.weekday = weekday;
-    }
-
-    public Date getFromDate() {
-        return fromDate;
-    }
-
-    public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
-    }
-
-    public Date getToDate() {
-        return toDate;
-    }
-
-    public void setToDate(Date toDate) {
-        this.toDate = toDate;
-    }
-
     public Date getFromTime() {
         return fromTime;
     }
@@ -172,7 +137,7 @@ public class PilgrimTimeslotsDetails implements Serializable {
     public void setTimeslots(PilgrimTimeslots timeslots) {
         this.timeslots = timeslots;
     }
-    
+
     @JsonbTransient
     public Collection<PilgrimTickets> getPilgrimTicketsCollection() {
         return pilgrimTicketsCollection;

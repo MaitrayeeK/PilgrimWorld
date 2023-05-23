@@ -220,7 +220,7 @@ public class UserMaster implements Serializable {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
-    
+
     @JsonbTransient
     public Collection<PilgrimMaster> getPilgrimMasterCollection() {
         return pilgrimMasterCollection;
@@ -229,7 +229,7 @@ public class UserMaster implements Serializable {
     public void setPilgrimMasterCollection(Collection<PilgrimMaster> pilgrimMasterCollection) {
         this.pilgrimMasterCollection = pilgrimMasterCollection;
     }
-    
+
     @JsonbTransient
     public Collection<FeedbackMaster> getFeedbackMasterCollection() {
         return feedbackMasterCollection;
@@ -238,7 +238,7 @@ public class UserMaster implements Serializable {
     public void setFeedbackMasterCollection(Collection<FeedbackMaster> feedbackMasterCollection) {
         this.feedbackMasterCollection = feedbackMasterCollection;
     }
-    
+
     @JsonbTransient
     public Collection<PaymentMaster> getPaymentMasterCollection() {
         return paymentMasterCollection;

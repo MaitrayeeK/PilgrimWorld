@@ -190,7 +190,7 @@ public class PilgrimMaster implements Serializable {
     public void setUser(UserMaster user) {
         this.user = user;
     }
-    
+
     @JsonbTransient
     public Collection<PilgrimTimeslots> getPilgrimTimeslotsCollection() {
         return pilgrimTimeslotsCollection;
@@ -199,7 +199,7 @@ public class PilgrimMaster implements Serializable {
     public void setPilgrimTimeslotsCollection(Collection<PilgrimTimeslots> pilgrimTimeslotsCollection) {
         this.pilgrimTimeslotsCollection = pilgrimTimeslotsCollection;
     }
-    
+
     @JsonbTransient
     public Collection<AdvertisementMaster> getAdvertisementMasterCollection() {
         return advertisementMasterCollection;
