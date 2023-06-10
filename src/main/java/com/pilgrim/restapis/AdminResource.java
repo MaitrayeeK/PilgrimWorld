@@ -6,7 +6,6 @@ package com.pilgrim.restapis;
 
 import com.pilgrim.ejb.AdminBeanLocal;
 import com.pilgrim.entities.CommissionMaster;
-import com.pilgrim.entities.PilgrimMaster;
 import com.pilgrim.entities.ProfitMaster;
 import com.pilgrim.entities.StateMaster;
 import com.pilgrim.entities.UserMaster;
@@ -97,10 +96,10 @@ public class AdminResource {
     @Path("users/update")
     @Consumes("application/json")
     @Produces("application/json")
-    public Response updateuser(UserMaster user) {
+    public Response updateuser(Request<UserMaster> requestbody) {
         Response response = new Response();
         try {
-//            UserMaster user = requestbody.getData();
+            UserMaster user = requestbody.getData();
             adminBeanLocal.updateUser(user);
             response.setMessage("User updated successfully!");
             response.setStatus(true);
