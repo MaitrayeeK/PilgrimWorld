@@ -28,6 +28,7 @@ public interface ClientBeanLocal {
     public void removePilgrim(Integer pilgrimId);
     
     Collection<PilgrimMaster> getPilgrims();
+    PilgrimMaster getPilgrimById(Integer pilgrimid);
     Collection<PilgrimMaster> getPilgrimsByState(Integer stateId);
     Collection<PilgrimMaster> getPilgrimsByCity(Integer cityId);
     Collection<PilgrimMaster> getPilgrimsByStateCity(Integer StateId, Integer cityId);
@@ -73,6 +74,7 @@ public interface ClientBeanLocal {
     public void removePilgrimTicket(Integer ticketId);
     
     Collection<PilgrimTickets> getTicketsByPilgrim(Integer pilgrimid);
+    PilgrimTickets getTicketsByPTimeSlotsDetails(Integer ptimeslotsdetailsid);
     
     //operations for advertisement_master
     public void addAdvertisement(AdvertisementMaster advertisement);

@@ -5,7 +5,6 @@
 package com.pilgrim.helper;
 
 import com.pilgrim.entities.UserMaster;
-import com.pilgrim.jwt.JWTCredential;
 import java.io.Serializable;
 import javax.security.enterprise.identitystore.CredentialValidationResult.Status;
 
@@ -18,27 +17,22 @@ public class SecurityData implements Serializable {
     private Status status;
     private String token;
     private UserMaster user;
-    private JWTCredential credential;
+    private long credentialValidity;
+    private boolean rememberMe;
     
     public SecurityData() {
     }
 
-    public SecurityData(Status status, String token, UserMaster user, JWTCredential credential) {
+    public SecurityData(Status status, String token, UserMaster user, long credentialValidity) {
         this.status = status;
         this.token = token;
         this.user = user;
-        this.credential = credential;
+        this.credentialValidity = credentialValidity;
     }
 
-    public SecurityData(Status status, String token, UserMaster user) {
-        this.status = status;
+    public SecurityData(String token, long credentialValidity) {
         this.token = token;
-        this.user = user;
-    }
-
-    public SecurityData(Status status, JWTCredential credential) {
-        this.status = status;
-        this.credential = credential;
+        this.credentialValidity = credentialValidity;
     }
 
     public SecurityData(Status status) {
@@ -69,11 +63,19 @@ public class SecurityData implements Serializable {
         this.user = user;
     }
 
-    public JWTCredential getCredential() {
-        return credential;
+    public long getCredentialValidity() {
+        return credentialValidity;
     }
 
-    public void setCredential(JWTCredential credential) {
-        this.credential = credential;
+    public void setCredentialValidity(long credentialValidity) {
+        this.credentialValidity = credentialValidity;
+    }
+
+    public boolean isRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(boolean rememberMe) {
+        this.rememberMe = rememberMe;
     }
 }

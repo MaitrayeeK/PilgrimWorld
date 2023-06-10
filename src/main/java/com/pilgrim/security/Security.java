@@ -40,7 +40,6 @@ public class Security {
     public SecurityData validateUser(SecurityData securitydata) {
 
         UserMaster user = securitydata.getUser();
-        String token;
 
         System.out.println("EJB " + user.getUsername());
 
@@ -51,13 +50,14 @@ public class Security {
         if (result.getStatus() == Status.VALID) {
             
             //generate token
-            token = tokenProvider.createToken(result.getCallerPrincipal().getName(), result.getCallerGroups(), false);
+            SecurityData data = tokenProvider.createToken(result.getCallerPrincipal().getName(), result.getCallerGroups(), securitydata.isRememberMe());
             
-            System.out.println("Token: " + token);
+            System.out.println("Token: " + data.getToken());
+            System.out.println("Validity: " + data.getCredentialValidity());
             
             UserMaster validatedUser = adminBeanLocal.getUserByUsername(result.getCallerPrincipal().getName());
             
-            SecurityData security = new SecurityData(result.getStatus(), token, validatedUser);
+            SecurityData security = new SecurityData(result.getStatus(), data.getToken(), validatedUser, data.getCredentialValidity());
             return security;
         }
         else{

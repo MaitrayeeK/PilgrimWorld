@@ -4,6 +4,7 @@
  */
 package com.pilgrim.jwt;
 
+import com.pilgrim.helper.SecurityData;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,20 +35,21 @@ public class TokenProvider implements Serializable {
         this.tokenValidity_rememberMe = TimeUnit.SECONDS.toMillis(JWTConstants.REMEMBERME_VALIDITY_SECONDS);
     }
     
-    public String createToken(String username, Set<String> authorities, Boolean rememberme) {
+    public SecurityData createToken(String username, Set<String> authorities, Boolean rememberme) {
         
         long now = new Date().getTime();
         long token_validity = rememberme ? tokenValidity_rememberMe : tokenvalidity;
         
         System.out.println("TokenProvider - In createToken() method!!!");
         
-        return Jwts.builder()
+        String token = Jwts.builder()
                 .setSubject(username)
                 .setIssuer("localhost")
                 .claim(JWTConstants.AUTHORITIES_KEY, authorities.stream().collect(joining(",")))
                 .signWith(SignatureAlgorithm.HS512, secret_key)
                 .setExpiration(new Date(now + token_validity))
                 .compact();
+        return new SecurityData(token, token_validity);
         
     }
     

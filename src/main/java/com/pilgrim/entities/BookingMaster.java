@@ -47,10 +47,17 @@ public class BookingMaster implements Serializable {
     @Basic(optional = false)
     @Column(name = "booking_id")
     private Integer bookingId;
+    @Column(name = "total_rooms")
+    private Integer totalRooms;
     @Basic(optional = false)
     @NotNull
     @Column(name = "no_of_person")
     private int noOfPerson;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "booking_date")
+    @Temporal(TemporalType.DATE)
+    private Date bookingDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "total_price")
@@ -65,10 +72,13 @@ public class BookingMaster implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+    @JoinColumn(name = "pilgrim_room_id", referencedColumnName = "pilgrim_room_id")
+    @ManyToOne
+    private PilgrimRooms pilgrimRoom;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
     private Collection<PaymentMaster> paymentMasterCollection;
     @JoinColumn(name = "discount_id", referencedColumnName = "discount_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private DiscountMaster discount;
     @JoinColumn(name = "pilgrim_id", referencedColumnName = "pilgrim_id")
     @ManyToOne(optional = false)
@@ -210,6 +220,31 @@ public class BookingMaster implements Serializable {
     @Override
     public String toString() {
         return "com.pilgrim.entities.BookingMaster[ bookingId=" + bookingId + " ]";
+    }
+
+    public Integer getTotalRooms() {
+        return totalRooms;
+    }
+
+    public void setTotalRooms(Integer totalRooms) {
+        this.totalRooms = totalRooms;
+    }
+
+    public Date getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(Date bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+
+    public PilgrimRooms getPilgrimRoom() {
+        return pilgrimRoom;
+    }
+
+    public void setPilgrimRoom(PilgrimRooms pilgrimRoom) {
+        this.pilgrimRoom = pilgrimRoom;
     }
 
 }
