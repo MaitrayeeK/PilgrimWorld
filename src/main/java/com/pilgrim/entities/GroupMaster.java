@@ -154,4 +154,4 @@ public class GroupMaster implements Serializable {
         return "com.pilgrim.entities.GroupMaster[ groupId=" + groupId + " ]";
     }
 
-}
+    }

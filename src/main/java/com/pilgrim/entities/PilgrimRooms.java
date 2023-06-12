@@ -6,6 +6,7 @@
 package com.pilgrim.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,10 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -50,8 +53,9 @@ public class PilgrimRooms implements Serializable {
     private int noOfRooms;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 200)
     @Column(name = "room_type")
-    private int roomType;
+    private String roomType;
     @Basic(optional = false)
     @NotNull
     @Column(name = "price")
@@ -66,6 +70,8 @@ public class PilgrimRooms implements Serializable {
     @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+    @OneToMany(mappedBy = "pilgrimRoom")
+    private Collection<BookingMaster> bookingMasterCollection;
     @JoinColumn(name = "pilgrim_id", referencedColumnName = "pilgrim_id")
     @ManyToOne(optional = false)
     private PilgrimMaster pilgrim;
@@ -77,7 +83,7 @@ public class PilgrimRooms implements Serializable {
         this.pilgrimRoomId = pilgrimRoomId;
     }
 
-    public PilgrimRooms(Integer pilgrimRoomId, int noOfRooms, int roomType, float price, Date createdDate, Date updatedDate) {
+    public PilgrimRooms(Integer pilgrimRoomId, int noOfRooms, String roomType, float price, Date createdDate, Date updatedDate) {
         this.pilgrimRoomId = pilgrimRoomId;
         this.noOfRooms = noOfRooms;
         this.roomType = roomType;
@@ -102,11 +108,11 @@ public class PilgrimRooms implements Serializable {
         this.noOfRooms = noOfRooms;
     }
 
-    public int getRoomType() {
+    public String getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(int roomType) {
+    public void setRoomType(String roomType) {
         this.roomType = roomType;
     }
 
@@ -165,6 +171,14 @@ public class PilgrimRooms implements Serializable {
     @Override
     public String toString() {
         return "com.pilgrim.entities.PilgrimRooms[ pilgrimRoomId=" + pilgrimRoomId + " ]";
+    }
+
+    public Collection<BookingMaster> getBookingMasterCollection() {
+        return bookingMasterCollection;
+    }
+
+    public void setBookingMasterCollection(Collection<BookingMaster> bookingMasterCollection) {
+        this.bookingMasterCollection = bookingMasterCollection;
     }
 
 }

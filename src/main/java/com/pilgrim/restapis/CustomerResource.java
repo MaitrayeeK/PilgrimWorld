@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
+import javax.ws.rs.PathParam;
 
 /**
  * REST Web Service
@@ -54,15 +55,13 @@ public class CustomerResource {
         return response;
     }
 
-    @POST
-    @Path("feedbacks/getByPilgrim")
+    @GET
+    @Path("feedbacks/getByPilgrim/{pilgrimid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<FeedbackMaster>> getFeedbacksByPilgrim(Request<PilgrimMaster> requestbody) {
+    public Response<Collection<FeedbackMaster>> getFeedbacksByPilgrim(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            PilgrimMaster pilgrim = requestbody.getData();
-            response.setResult(customerBeanLocal.getFeedbacksByPilgrim(pilgrim.getPilgrimId()));
+            response.setResult(customerBeanLocal.getFeedbacksByPilgrim(pilgrimid));
             response.setMessage("Feedbacks fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -73,15 +72,13 @@ public class CustomerResource {
         return response;
     }
 
-    @POST
-    @Path("feedbacks/getByUser")
+    @GET
+    @Path("feedbacks/getByUser/{userid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<FeedbackMaster>> getFeedbacksByUser(Request<UserMaster> requestbody) {
+    public Response<Collection<FeedbackMaster>> getFeedbacksByUser(@PathParam("userid") Integer userid) {
         Response response = new Response();
         try {
-            UserMaster user = requestbody.getData();
-            response.setResult(customerBeanLocal.getFeedbacksByUser(user.getUserId()));
+            response.setResult(customerBeanLocal.getFeedbacksByUser(userid));
             response.setMessage("Feedbacks fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -130,15 +127,13 @@ public class CustomerResource {
         return response;
     }
 
-    @POST
-    @Path("feedbacks/delete")
-    @Consumes("application/json")
+    @DELETE
+    @Path("feedbacks/delete/{feedbackid}")
     @Produces("application/json")
-    public Response removeFeedback(Request<FeedbackMaster> requestbody) {
+    public Response removeFeedback(@PathParam("feedbackid") Integer feedbackid) {
         Response response = new Response();
         try {
-            FeedbackMaster feedback = requestbody.getData();
-            customerBeanLocal.removeFeedback(feedback.getFeedbackId());
+            customerBeanLocal.removeFeedback(feedbackid);
             response.setMessage("Feedback deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -166,15 +161,13 @@ public class CustomerResource {
         return response;
     }
 
-    @POST
-    @Path("bookings/getByPilgrim")
+    @GET
+    @Path("bookings/getByPilgrim/{pilgrimid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<BookingMaster>> getBookingsByPilgrim(Request<PilgrimMaster> requestbody) {
+    public Response<Collection<BookingMaster>> getBookingsByPilgrim(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            PilgrimMaster pilgrim = requestbody.getData();
-            response.setResult(customerBeanLocal.getBookingsByPilgrim(pilgrim.getPilgrimId()));
+            response.setResult(customerBeanLocal.getBookingsByPilgrim(pilgrimid));
             response.setMessage("Bookings fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -185,15 +178,13 @@ public class CustomerResource {
         return response;
     }
 
-    @POST
-    @Path("bookings/getByUser")
+    @GET
+    @Path("bookings/getByUser/{userid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<BookingMaster>> getBookingByUser(Request<UserMaster> requestbody) {
+    public Response<Collection<BookingMaster>> getBookingByUser(@PathParam("userid") Integer userid) {
         Response response = new Response();
         try {
-            UserMaster user = requestbody.getData();
-            response.setResult(customerBeanLocal.getBookingByUser(user.getUserId()));
+            response.setResult(customerBeanLocal.getBookingByUser(userid));
             response.setMessage("Bookings fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {

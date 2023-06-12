@@ -48,12 +48,8 @@ public class PilgrimTickets implements Serializable {
     @Basic(optional = false)
     @Column(name = "ticket_id")
     private Integer ticketId;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "from_age")
     private int fromAge;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "to_age")
     private int toAge;
     @Basic(optional = false)

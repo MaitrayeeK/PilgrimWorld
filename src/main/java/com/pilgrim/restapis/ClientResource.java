@@ -6,7 +6,6 @@ package com.pilgrim.restapis;
 
 import com.pilgrim.ejb.ClientBeanLocal;
 import com.pilgrim.entities.AdvertisementMaster;
-import com.pilgrim.entities.CityMaster;
 import com.pilgrim.entities.DiscountMaster;
 import com.pilgrim.entities.PilgrimImages;
 import com.pilgrim.entities.PilgrimMaster;
@@ -14,7 +13,6 @@ import com.pilgrim.entities.PilgrimRooms;
 import com.pilgrim.entities.PilgrimTickets;
 import com.pilgrim.entities.PilgrimTimeslots;
 import com.pilgrim.entities.PilgrimTimeslotsDetails;
-import com.pilgrim.entities.StateMaster;
 import com.pilgrim.helper.Request;
 import com.pilgrim.helper.Response;
 import java.util.Collection;
@@ -26,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
+import javax.ws.rs.PathParam;
 
 /**
  * REST Web Service
@@ -98,14 +97,12 @@ public class ClientResource {
     }
 
     @DELETE
-    @Path("pilgrims/delete")
-    @Consumes("application/json")
+    @Path("pilgrims/delete/{pilgrimid}")
     @Produces("application/json")
-    public Response deletePilgrim(Request<PilgrimMaster> requestbody) {
+    public Response removePilgrim(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            PilgrimMaster pilgrim = requestbody.getData();
-            clientBeanLocal.removePilgrim(pilgrim.getPilgrimId());
+            clientBeanLocal.removePilgrim(pilgrimid);
             response.setMessage("Pilgrim deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -116,15 +113,13 @@ public class ClientResource {
         return response;
     }
     
-    @POST
-    @Path("pilgrims/getByState")
+    @GET
+    @Path("pilgrims/{pilgrimid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<PilgrimMaster>> getPilgrimsByState(Request<StateMaster> requestbody) {
+    public Response<Collection<PilgrimMaster>> getPilgrimsById(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            StateMaster state = requestbody.getData();
-            response.setResult(clientBeanLocal.getPilgrimsByState(state.getStateId()));
+            response.setResult(clientBeanLocal.getPilgrimById(pilgrimid));
             response.setMessage("Pilgrims fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -135,15 +130,13 @@ public class ClientResource {
         return response;
     }
     
-    @POST
-    @Path("pilgrims/getByCity")
+    @GET
+    @Path("pilgrims/getByState/{stateid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<PilgrimMaster>> getPilgrimsByCity(Request<CityMaster> requestbody) {
+    public Response<Collection<PilgrimMaster>> getPilgrimsByState(@PathParam("stateid") Integer stateid) {
         Response response = new Response();
         try {
-            CityMaster city = requestbody.getData();
-            response.setResult(clientBeanLocal.getPilgrimsByCity(city.getCityId()));
+            response.setResult(clientBeanLocal.getPilgrimsByState(stateid));
             response.setMessage("Pilgrims fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -154,15 +147,30 @@ public class ClientResource {
         return response;
     }
     
-    @POST
-    @Path("pilgrims/getByStateCity")
+    @GET
+    @Path("pilgrims/getByCity/{cityid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<PilgrimMaster>> getPilgrimsByStateCity(Request<CityMaster> requestbody) {
+    public Response<Collection<PilgrimMaster>> getPilgrimsByCity(@PathParam("cityid") Integer cityid) {
         Response response = new Response();
         try {
-            CityMaster city = requestbody.getData();
-            response.setResult(clientBeanLocal.getPilgrimsByStateCity(city.getState().getStateId(), city.getCityId()));
+            response.setResult(clientBeanLocal.getPilgrimsByCity(cityid));
+            response.setMessage("Pilgrims fetched successfully!");
+            response.setStatus(true);
+        } catch (Exception e) {
+            response.setResult(e);
+            response.setMessage("Failed while fetching Pilgrims!");
+            response.setStatus(false);
+        }
+        return response;
+    }
+    
+    @GET
+    @Path("pilgrims/getByStateCity/{stateid}/{cityid}")
+    @Produces("application/json")
+    public Response<Collection<PilgrimMaster>> getPilgrimsByStateCity(@PathParam("stateid") Integer stateid, @PathParam("cityid") Integer cityid) {
+        Response response = new Response();
+        try {
+            response.setResult(clientBeanLocal.getPilgrimsByStateCity(stateid, cityid));
             response.setMessage("Pilgrims fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -173,15 +181,13 @@ public class ClientResource {
         return response;
     }
 
-    @POST
-    @Path("pilgrimImages")
+    @GET
+    @Path("pilgrimImages/{pilgrimid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<PilgrimImages>> getPilgrimImages(Request<PilgrimMaster> requestbody) {
+    public Response<Collection<PilgrimImages>> getPilgrimImages(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            PilgrimMaster pilgrim = requestbody.getData();
-            response.setResult(clientBeanLocal.getPilgrimImages(pilgrim.getPilgrimId()));
+            response.setResult(clientBeanLocal.getPilgrimImages(pilgrimid));
             response.setMessage("Pilgrim Images fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -231,14 +237,12 @@ public class ClientResource {
     }
 
     @DELETE
-    @Path("pilgrimImages/delete")
-    @Consumes("application/json")
+    @Path("pilgrimImages/delete/{pimagesid}")
     @Produces("application/json")
-    public Response deletePilgrimImages(Request<PilgrimImages> requestbody) {
+    public Response removePilgrimImages(@PathParam("pimagesid") Integer pimagesid) {
         Response response = new Response();
         try {
-            PilgrimImages pilgrimImages = requestbody.getData();
-            clientBeanLocal.removePilgrim(pilgrimImages.getPilgrimImageId());
+            clientBeanLocal.removePilgrim(pimagesid);
             response.setMessage("Pilgrim Images deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -249,15 +253,13 @@ public class ClientResource {
         return response;
     }
 
-    @POST
-    @Path("pilgrimRooms")
+    @GET
+    @Path("pilgrimRooms/{pilgrimid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<PilgrimRooms>> getPilgrimRooms(Request<PilgrimMaster> requestbody) {
+    public Response<Collection<PilgrimRooms>> getPilgrimRooms(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            PilgrimMaster pilgrim = requestbody.getData();
-            response.setResult(clientBeanLocal.getPilgrimRooms(pilgrim.getPilgrimId()));
+            response.setResult(clientBeanLocal.getPilgrimRooms(pilgrimid));
             response.setMessage("Pilgrim Rooms fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -307,14 +309,12 @@ public class ClientResource {
     }
 
     @DELETE
-    @Path("pilgrimRooms/delete")
-    @Consumes("application/json")
+    @Path("pilgrimRooms/delete/{proomsid}")
     @Produces("application/json")
-    public Response deletePilgrimRooms(Request<PilgrimRooms> requestbody) {
+    public Response removePilgrimRooms(@PathParam("proomsid") Integer proomsid) {
         Response response = new Response();
         try {
-            PilgrimRooms pilgrimRooms = requestbody.getData();
-            clientBeanLocal.removePilgrimRooms(pilgrimRooms.getPilgrimRoomId());
+            clientBeanLocal.removePilgrimRooms(proomsid);
             response.setMessage("Pilgrim Rooms deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -325,15 +325,13 @@ public class ClientResource {
         return response;
     }
 
-    @POST
-    @Path("pilgrimTimeslots")
+    @GET
+    @Path("pilgrimTimeslots/{pilgrimid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<PilgrimTimeslots>> getPilgrimTimeslots(Request<PilgrimMaster> requestbody) {
+    public Response<Collection<PilgrimTimeslots>> getPilgrimTimeslots(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            PilgrimMaster pilgrim = requestbody.getData();
-            response.setResult(clientBeanLocal.getPilgrimTimeslots(pilgrim.getPilgrimId()));
+            response.setResult(clientBeanLocal.getPilgrimTimeslots(pilgrimid));
             response.setMessage("Pilgrim Timeslots fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -383,14 +381,12 @@ public class ClientResource {
     }
     
     @DELETE
-    @Path("pilgrimTimeslots/delete")
-    @Consumes("application/json")
+    @Path("pilgrimTimeslots/delete/{ptimeslotsid}")
     @Produces("application/json")
-    public Response removePilgrimTimeslots(Request<PilgrimTimeslots> requestbody) {
+    public Response removePilgrimTimeslots(@PathParam("ptimeslotsid") Integer ptimeslotsid) {
         Response response = new Response();
         try {
-            PilgrimTimeslots pilgrimTimeslots = requestbody.getData();
-            clientBeanLocal.removePilgrimTimeslots(pilgrimTimeslots.getTimeslotsId());
+            clientBeanLocal.removePilgrimTimeslots(ptimeslotsid);
             response.setMessage("Pilgrim Timeslots deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -401,15 +397,13 @@ public class ClientResource {
         return response;
     }
     
-    @POST
-    @Path("pilgrimTimeslotsDetails")
+    @GET
+    @Path("pilgrimTimeslotsDetails/{ptimeslotsid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<PilgrimTimeslotsDetails>> getPilgrimTimeslotsDetails(Request<PilgrimTimeslots> requestbody) {
+    public Response<Collection<PilgrimTimeslotsDetails>> getPilgrimTimeslotsDetails(@PathParam("ptimeslotsid") Integer ptimeslotsid) {
         Response response = new Response();
         try {
-            PilgrimTimeslots pilgrimTimeslots = requestbody.getData();
-            response.setResult(clientBeanLocal.getPilgrimTimeslotsDetails(pilgrimTimeslots.getTimeslotsId()));
+            response.setResult(clientBeanLocal.getPilgrimTimeslotsDetails(ptimeslotsid));
             response.setMessage("Pilgrim Timeslots Details fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -459,14 +453,12 @@ public class ClientResource {
     }
     
     @DELETE
-    @Path("pilgrimTimeslotsDetails/delete")
-    @Consumes("application/json")
+    @Path("pilgrimTimeslotsDetails/delete/{ptimeslotsdetailsid}")
     @Produces("application/json")
-    public Response removePilgrimTimeslotsDetails(Request<PilgrimTimeslotsDetails> requestbody) {
+    public Response removePilgrimTimeslotsDetails(@PathParam("ptimeslotsdetailsid") Integer ptimeslotsdetailsid) {
         Response response = new Response();
         try {
-            PilgrimTimeslotsDetails pilgrimTimeSlotsDetails = requestbody.getData();
-            clientBeanLocal.removePilgrimTimeslotsDetails(pilgrimTimeSlotsDetails.getTimeslotsDetailsId());
+            clientBeanLocal.removePilgrimTimeslotsDetails(ptimeslotsdetailsid);
             response.setMessage("Pilgrim Timeslots Details deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -533,14 +525,12 @@ public class ClientResource {
     }
     
     @DELETE
-    @Path("discounts/delete")
-    @Consumes("application/json")
+    @Path("discounts/delete/{discountid}")
     @Produces("application/json")
-    public Response removeDiscount(Request<DiscountMaster> requestbody) {
+    public Response removeDiscount(@PathParam("discountid") Integer discountid) {
         Response response = new Response();
         try {
-            DiscountMaster discount = requestbody.getData();
-            clientBeanLocal.removeDiscount(discount.getDiscountId());
+            clientBeanLocal.removeDiscount(discountid);
             response.setMessage("Discount deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -551,15 +541,30 @@ public class ClientResource {
         return response;
     }
     
-    @POST
-    @Path("pilgrimTickets")
+    @GET
+    @Path("pilgrimTickets/{pilgrimid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<PilgrimTickets>> getTicketsByPilgrim(Request<PilgrimMaster> requestbody) {
+    public Response<Collection<PilgrimTickets>> getTicketsByPilgrim(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            PilgrimMaster pilgrim = requestbody.getData();
-            response.setResult(clientBeanLocal.getTicketsByPilgrim(pilgrim.getPilgrimId()));
+            response.setResult(clientBeanLocal.getTicketsByPilgrim(pilgrimid));
+            response.setMessage("Pilgrim Tickets fetched successfully!");
+            response.setStatus(true);
+        } catch (Exception e) {
+            response.setResult(e);
+            response.setMessage("Failed while fetching Pilgrim Tickets!");
+            response.setStatus(false);
+        }
+        return response;
+    }
+    
+    @GET
+    @Path("pilgrimTickets/getByPTimeSlotsDetails/{ptimeslotsdetailsid}")
+    @Produces("application/json")
+    public Response<PilgrimTickets> getTicketsByPTimeSlotsDetails(@PathParam("ptimeslotsdetailsid") Integer ptimeslotsdetailsid) {
+        Response response = new Response();
+        try {
+            response.setResult(clientBeanLocal.getTicketsByPTimeSlotsDetails(ptimeslotsdetailsid));
             response.setMessage("Pilgrim Tickets fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -609,14 +614,12 @@ public class ClientResource {
     }
     
     @DELETE
-    @Path("pilgrimTickets/delete")
-    @Consumes("application/json")
+    @Path("pilgrimTickets/delete/{pticketid}")
     @Produces("application/json")
-    public Response removePilgrimTicket(Request<PilgrimTickets> requestbody) {
+    public Response removePilgrimTicket(@PathParam("pticketid") Integer pticketid) {
         Response response = new Response();
         try {
-            PilgrimTickets pilgrimTickets = requestbody.getData();
-            clientBeanLocal.removePilgrimTicket(pilgrimTickets.getTicketId());
+            clientBeanLocal.removePilgrimTicket(pticketid);
             response.setMessage("Pilgrim Tickets deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -644,15 +647,13 @@ public class ClientResource {
         return response;
     }
     
-    @POST
-    @Path("advertisements/getByPilgrim")
+    @GET
+    @Path("advertisements/getByPilgrim/{pilgrimid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<AdvertisementMaster>> getAdvertisementByPilgrim(Request<PilgrimMaster> requestbody) {
+    public Response<Collection<AdvertisementMaster>> getAdvertisementByPilgrim(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            PilgrimMaster pilgrim = requestbody.getData();
-            response.setResult(clientBeanLocal.getAdvertisementByPilgrim(pilgrim.getPilgrimId()));
+            response.setResult(clientBeanLocal.getAdvertisementByPilgrim(pilgrimid));
             response.setMessage("Pilgrim Advertisements fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -701,15 +702,13 @@ public class ClientResource {
         return response;
     }
     
-    @POST
-    @Path("advertisements/delete")
-    @Consumes("application/json")
+    @DELETE
+    @Path("advertisements/delete/{advertisementid}")
     @Produces("application/json")
-    public Response removeAdvertisement(Request<AdvertisementMaster> requestbody) {
+    public Response removeAdvertisement(@PathParam("advertisementid") Integer advertisementid) {
         Response response = new Response();
         try {
-            AdvertisementMaster advertisements = requestbody.getData();
-            clientBeanLocal.removeAdvertisement(advertisements.getAdvertisementId());
+            clientBeanLocal.removeAdvertisement(advertisementid);
             response.setMessage("Pilgrim Advertisements deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {

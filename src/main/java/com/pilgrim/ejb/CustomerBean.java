@@ -9,6 +9,7 @@ import com.pilgrim.entities.DiscountMaster;
 import com.pilgrim.entities.FeedbackMaster;
 import com.pilgrim.entities.PaymentMaster;
 import com.pilgrim.entities.PilgrimMaster;
+import com.pilgrim.entities.PilgrimRooms;
 import com.pilgrim.entities.PilgrimTickets;
 import com.pilgrim.entities.PilgrimTimeslotsDetails;
 import com.pilgrim.entities.UserMaster;
@@ -114,11 +115,15 @@ public class CustomerBean implements CustomerBeanLocal {
         DiscountMaster discount = em.find(DiscountMaster.class, booking.getDiscount().getDiscountId());
         Collection<BookingMaster> discountBookings = discount.getBookingMasterCollection();
         
+        PilgrimRooms rooms = em.find(PilgrimRooms.class, booking.getPilgrimRoom().getPilgrimRoomId());
+        Collection<BookingMaster> roomsBooking = rooms.getBookingMasterCollection();
+        
         booking.setUser(user);
         booking.setPilgrim(pilgrim);
         booking.setTimeslotsDetails(timeslotsdetails);
         booking.setTicket(pticket);
         booking.setDiscount(discount);
+        booking.setPilgrimRoom(rooms);
         
         userBookings.add(booking);
         user.setBookingMasterCollection(userBookings);
@@ -135,6 +140,9 @@ public class CustomerBean implements CustomerBeanLocal {
         discountBookings.add(booking);
         discount.setBookingMasterCollection(discountBookings);
         
+        roomsBooking.add(booking);
+        rooms.setBookingMasterCollection(roomsBooking);
+        
         em.persist(booking);
         em.merge(user);
     }
@@ -146,12 +154,14 @@ public class CustomerBean implements CustomerBeanLocal {
         PilgrimTimeslotsDetails timeslotsdetails = em.find(PilgrimTimeslotsDetails.class, booking.getTimeslotsDetails().getTimeslotsDetailsId());
         PilgrimTickets pticket = em.find(PilgrimTickets.class, booking.getTicket().getTicketId());
         DiscountMaster discount = em.find(DiscountMaster.class, booking.getDiscount().getDiscountId());
+        PilgrimRooms rooms = em.find(PilgrimRooms.class, booking.getPilgrimRoom().getPilgrimRoomId());
         
         booking.setUser(user);
         booking.setPilgrim(pilgrim);
         booking.setTimeslotsDetails(timeslotsdetails);
         booking.setTicket(pticket);
         booking.setDiscount(discount);
+        booking.setPilgrimRoom(rooms);
         
         em.merge(booking);
     }
@@ -175,12 +185,16 @@ public class CustomerBean implements CustomerBeanLocal {
         DiscountMaster discount = em.find(DiscountMaster.class, booking.getDiscount().getDiscountId());
         Collection<BookingMaster> discountBookings = discount.getBookingMasterCollection();
         
-        if(userBookings.contains(booking) && pilgrimBookings.contains(booking) && tsdBookings.contains(booking) && ticketBookings.contains(booking) && discountBookings.contains(booking)){
+        PilgrimRooms rooms = em.find(PilgrimRooms.class, booking.getPilgrimRoom().getPilgrimRoomId());
+        Collection<BookingMaster> roomsBooking = rooms.getBookingMasterCollection();
+        
+        if(userBookings.contains(booking) && pilgrimBookings.contains(booking) && tsdBookings.contains(booking) && ticketBookings.contains(booking) && discountBookings.contains(booking) && roomsBooking.contains(booking)){
             userBookings.remove(booking);
             pilgrimBookings.remove(booking);
             tsdBookings.remove(booking);
             ticketBookings.remove(booking);
             discountBookings.remove(booking);
+            roomsBooking.remove(booking);
             
             em.remove(booking);
         }

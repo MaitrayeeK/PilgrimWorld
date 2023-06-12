@@ -6,8 +6,6 @@ package com.pilgrim.restapis;
 
 import com.pilgrim.ejb.AdminBeanLocal;
 import com.pilgrim.entities.CommissionMaster;
-import com.pilgrim.entities.GroupMaster;
-import com.pilgrim.entities.PilgrimMaster;
 import com.pilgrim.entities.ProfitMaster;
 import com.pilgrim.entities.StateMaster;
 import com.pilgrim.entities.UserMaster;
@@ -114,14 +112,12 @@ public class AdminResource {
     }
 
     @DELETE
-    @Path("users/delete")
-    @Consumes("application/json")
+    @Path("users/delete/{userid}")
     @Produces("application/json")
-    public Response removeUser(Request<UserMaster> requestbody) {
+    public Response removeUser(@PathParam("userid") Integer userid) {
         Response response = new Response();
         try {
-            UserMaster user = requestbody.getData();
-            adminBeanLocal.removeUser(user.getUserId());
+            adminBeanLocal.removeUser(userid);
             response.setMessage("User updated successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -248,15 +244,13 @@ public class AdminResource {
         return response;
     }
 
-    @POST
-    @Path("commissions/getByPilgrim")
+    @GET
+    @Path("commissions/getByPilgrim/{pilgrimid}")
     @Produces("application/json")
-    @Consumes("application/json")
-    public Response<Collection<CommissionMaster>> getCommissionsByPilgrim(Request<PilgrimMaster> requestbody) {
+    public Response<Collection<CommissionMaster>> getCommissionsByPilgrim(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();
         try {
-            PilgrimMaster pilgrim = requestbody.getData();
-            response.setResult(adminBeanLocal.getCommissionsByPilgrim(pilgrim.getPilgrimId()));
+            response.setResult(adminBeanLocal.getCommissionsByPilgrim(pilgrimid));
             response.setMessage("Commissions fetched successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -306,14 +300,12 @@ public class AdminResource {
     }
 
     @DELETE
-    @Path("commissions/delete")
-    @Consumes("application/json")
+    @Path("commissions/delete/{commissionid}")
     @Produces("application/json")
-    public Response removeCommission(Request<CommissionMaster> requestbody) {
+    public Response removeCommission(@PathParam("commissionid") Integer commissionid) {
         Response response = new Response();
         try {
-            CommissionMaster commission = requestbody.getData();
-            adminBeanLocal.removeCommission(commission.getCommissionId());
+            adminBeanLocal.removeCommission(commissionid);
             response.setMessage("Commission deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
@@ -380,14 +372,12 @@ public class AdminResource {
     }
 
     @DELETE
-    @Path("profits/delete")
-    @Consumes("application/json")
+    @Path("profits/delete/{profitid}")
     @Produces("application/json")
-    public Response removeProfit(Request<ProfitMaster> requestbody) {
+    public Response removeProfit(@PathParam("profitid") Integer profitid) {
         Response response = new Response();
         try {
-            ProfitMaster profit = requestbody.getData();
-            adminBeanLocal.removeProfit(profit.getProfitId());
+            adminBeanLocal.removeProfit(profitid);
             response.setMessage("Profit deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {

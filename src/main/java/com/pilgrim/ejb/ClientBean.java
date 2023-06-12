@@ -100,6 +100,11 @@ public class ClientBean implements ClientBeanLocal {
         Collection<PilgrimMaster> pilgrims = em.createNamedQuery("PilgrimMaster.findAll").getResultList();
         return pilgrims;
     }
+    
+    @Override
+    public PilgrimMaster getPilgrimById(Integer pilgrimid) {
+        return em.find(PilgrimMaster.class, pilgrimid);
+    }
 
     @Override
     public Collection<PilgrimMaster> getPilgrimsByState(Integer stateId) {
@@ -287,6 +292,11 @@ public class ClientBean implements ClientBeanLocal {
         PilgrimTimeslots timeslots = em.find(PilgrimTimeslots.class, timeslotsid);
         Collection<PilgrimTimeslotsDetails> timeslotsdetails = timeslots.getPilgrimTimeslotsDetailsCollection();
         return timeslotsdetails;
+    }
+    
+    @Override
+    public PilgrimTickets getTicketsByPTimeSlotsDetails(Integer ptimeslotsdetailsid) {
+        return em.find(PilgrimTickets.class, ptimeslotsdetailsid);
     }
 
     @Override
