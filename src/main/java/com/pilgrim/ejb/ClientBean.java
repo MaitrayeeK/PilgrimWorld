@@ -211,6 +211,11 @@ public class ClientBean implements ClientBeanLocal {
         Collection<PilgrimRooms> rooms = pilgrim.getPilgrimRoomsCollection();
         return rooms;
     }
+    
+    @Override
+    public PilgrimRooms getPilgrimRoomsById(Integer proomid) {
+        return em.find(PilgrimRooms.class, proomid);
+    }
 
     @Override
     public void addPilgrimTimeslots(PilgrimTimeslots ptimeslots) {

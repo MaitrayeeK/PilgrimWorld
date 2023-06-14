@@ -46,6 +46,7 @@ public interface ClientBeanLocal {
     public void removePilgrimRooms(Integer pilgrimRoomId);
     
     Collection<PilgrimRooms> getPilgrimRooms(Integer pilgrimid);
+    PilgrimRooms getPilgrimRoomsById(Integer proomid);
     
     //operations for pilgrim_timeslots
     public void addPilgrimTimeslots(PilgrimTimeslots ptimeslots);
