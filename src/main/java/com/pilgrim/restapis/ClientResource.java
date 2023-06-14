@@ -252,9 +252,26 @@ public class ClientResource {
         }
         return response;
     }
+    
+    @GET
+    @Path("pilgrimRooms/{proomid}")
+    @Produces("application/json")
+    public Response<Collection<PilgrimRooms>> getPilgrimRoomsById(@PathParam("proomid") Integer proomid) {
+        Response response = new Response();
+        try {
+            response.setResult(clientBeanLocal.getPilgrimRoomsById(proomid));
+            response.setMessage("Pilgrim Rooms fetched successfully!");
+            response.setStatus(true);
+        } catch (Exception e) {
+            response.setResult(e);
+            response.setMessage("Failed while fetching Pilgrim Rooms!");
+            response.setStatus(false);
+        }
+        return response;
+    }
 
     @GET
-    @Path("pilgrimRooms/{pilgrimid}")
+    @Path("pilgrimRooms/getByPilgrim/{pilgrimid}")
     @Produces("application/json")
     public Response<Collection<PilgrimRooms>> getPilgrimRooms(@PathParam("pilgrimid") Integer pilgrimid) {
         Response response = new Response();

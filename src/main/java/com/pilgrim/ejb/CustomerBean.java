@@ -112,8 +112,8 @@ public class CustomerBean implements CustomerBeanLocal {
         PilgrimTickets pticket = em.find(PilgrimTickets.class, booking.getTicket().getTicketId());
         Collection<BookingMaster> ticketBookings = pticket.getBookingMasterCollection();
         
-        DiscountMaster discount = em.find(DiscountMaster.class, booking.getDiscount().getDiscountId());
-        Collection<BookingMaster> discountBookings = discount.getBookingMasterCollection();
+//        DiscountMaster discount = em.find(DiscountMaster.class, booking.getDiscount().getDiscountId());
+//        Collection<BookingMaster> discountBookings = discount.getBookingMasterCollection();
         
         PilgrimRooms rooms = em.find(PilgrimRooms.class, booking.getPilgrimRoom().getPilgrimRoomId());
         Collection<BookingMaster> roomsBooking = rooms.getBookingMasterCollection();
@@ -122,7 +122,7 @@ public class CustomerBean implements CustomerBeanLocal {
         booking.setPilgrim(pilgrim);
         booking.setTimeslotsDetails(timeslotsdetails);
         booking.setTicket(pticket);
-        booking.setDiscount(discount);
+//        booking.setDiscount(discount);
         booking.setPilgrimRoom(rooms);
         
         userBookings.add(booking);
@@ -137,8 +137,8 @@ public class CustomerBean implements CustomerBeanLocal {
         ticketBookings.add(booking);
         pticket.setBookingMasterCollection(ticketBookings);
         
-        discountBookings.add(booking);
-        discount.setBookingMasterCollection(discountBookings);
+//        discountBookings.add(booking);
+//        discount.setBookingMasterCollection(discountBookings);
         
         roomsBooking.add(booking);
         rooms.setBookingMasterCollection(roomsBooking);

@@ -234,14 +234,12 @@ public class CustomerResource {
     }
 
     @DELETE
-    @Path("bookings/delete")
-    @Consumes("application/json")
+    @Path("bookings/delete/{bookingid}")
     @Produces("application/json")
-    public Response removeBooking(Request<BookingMaster> requestbody) {
+    public Response removeBooking(@PathParam("bookingid") Integer bookingid) {
         Response response = new Response();
         try {
-            BookingMaster booking = requestbody.getData();
-            customerBeanLocal.removeBooking(booking.getBookingId());
+            customerBeanLocal.removeBooking(bookingid);
             response.setMessage("Booking deleted successfully!");
             response.setStatus(true);
         } catch (Exception e) {
