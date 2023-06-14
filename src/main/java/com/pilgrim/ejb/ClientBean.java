@@ -42,6 +42,8 @@ public class ClientBean implements ClientBeanLocal {
         CityMaster city = em.find(CityMaster.class, pilgrim.getCity().getCityId());
         Collection<PilgrimMaster> cityPilgrims = city.getPilgrimMasterCollection();
         
+        pilgrim.setCreatedDate(new Date());
+        pilgrim.setUpdatedDate(new Date());
         pilgrim.setUser(user);
         pilgrim.setState(state);
         pilgrim.setCity(city);
