@@ -15,7 +15,9 @@ import javax.json.bind.annotation.JsonbTransient;
 public class Request<T> implements Serializable {
     private T data;
 
-    @JsonbTransient
+    public Request() {
+    }
+    
     public T getData() {
         return data;
     }
