@@ -84,4 +84,7 @@ public interface ClientBeanLocal {
     
     public Collection<AdvertisementMaster> getAdvertisements();
     public Collection<AdvertisementMaster> getAdvertisementByPilgrim(Integer pilgrimid);
+    
+    public Collection<PilgrimMaster> getPilgrimsByUser(Integer id);
+    public Collection<PilgrimTimeslotsDetails> getAllTimeslotsDetails();
 }

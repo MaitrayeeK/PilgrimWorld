@@ -17,9 +17,14 @@ import com.pilgrim.entities.StateMaster;
 import com.pilgrim.entities.UserMaster;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -41,7 +46,7 @@ public class ClientBean implements ClientBeanLocal {
 
         CityMaster city = em.find(CityMaster.class, pilgrim.getCity().getCityId());
         Collection<PilgrimMaster> cityPilgrims = city.getPilgrimMasterCollection();
-        
+
         pilgrim.setCreatedDate(new Date());
         pilgrim.setUpdatedDate(new Date());
         pilgrim.setUser(user);
@@ -50,13 +55,13 @@ public class ClientBean implements ClientBeanLocal {
 
         userPilgrims.add(pilgrim);
         user.setPilgrimMasterCollection(userPilgrims);
-        
+
         statePilgrims.add(pilgrim);
         state.setPilgrimMasterCollection(statePilgrims);
-        
+
         cityPilgrims.add(pilgrim);
         city.setPilgrimMasterCollection(cityPilgrims);
-        
+
         em.persist(pilgrim);
         em.merge(user);
     }
@@ -88,7 +93,7 @@ public class ClientBean implements ClientBeanLocal {
         Collection<PilgrimMaster> cityPilgrims = city.getPilgrimMasterCollection();
 
         if (userPilgrims.contains(pilgrim) && statePilgrims.contains(pilgrim) && cityPilgrims.contains(pilgrim)) {
-            
+
             userPilgrims.remove(pilgrim);
             statePilgrims.remove(pilgrim);
             cityPilgrims.remove(pilgrim);
@@ -102,7 +107,7 @@ public class ClientBean implements ClientBeanLocal {
         Collection<PilgrimMaster> pilgrims = em.createNamedQuery("PilgrimMaster.findAll").getResultList();
         return pilgrims;
     }
-    
+
     @Override
     public PilgrimMaster getPilgrimById(Integer pilgrimid) {
         return em.find(PilgrimMaster.class, pilgrimid);
@@ -136,7 +141,7 @@ public class ClientBean implements ClientBeanLocal {
         Collection<PilgrimImages> pilgrimImages = pilgrim.getPilgrimImagesCollection();
 
         pimages.setPilgrim(pilgrim);
-        
+
         pilgrimImages.add(pimages);
         pilgrim.setPilgrimImagesCollection(pilgrimImages);
 
@@ -176,7 +181,7 @@ public class ClientBean implements ClientBeanLocal {
     public void addPilgrimRooms(PilgrimRooms prooms) {
         PilgrimMaster pilgrim = em.find(PilgrimMaster.class, prooms.getPilgrim().getPilgrimId());
         Collection<PilgrimRooms> pilgrimRooms = pilgrim.getPilgrimRoomsCollection();
-        
+
         prooms.setPilgrim(pilgrim);
 
         pilgrimRooms.add(prooms);
@@ -213,7 +218,7 @@ public class ClientBean implements ClientBeanLocal {
         Collection<PilgrimRooms> rooms = pilgrim.getPilgrimRoomsCollection();
         return rooms;
     }
-    
+
     @Override
     public PilgrimRooms getPilgrimRoomsById(Integer proomid) {
         return em.find(PilgrimRooms.class, proomid);
@@ -223,14 +228,20 @@ public class ClientBean implements ClientBeanLocal {
     public void addPilgrimTimeslots(PilgrimTimeslots ptimeslots) {
         PilgrimMaster pilgrim = em.find(PilgrimMaster.class, ptimeslots.getPilgrim().getPilgrimId());
         Collection<PilgrimTimeslots> timeslots = pilgrim.getPilgrimTimeslotsCollection();
-        
+
         ptimeslots.setPilgrim(pilgrim);
 
         timeslots.add(ptimeslots);
         pilgrim.setPilgrimTimeslotsCollection(timeslots);
 
+        ptimeslots.setCreatedDate(new Date());
+        ptimeslots.setUpdatedDate(new Date());
+
         em.persist(ptimeslots);
+        System.out.println(ptimeslots);
         em.merge(pilgrim);
+        System.out.println(ptimeslots);
+
     }
 
     @Override
@@ -247,7 +258,7 @@ public class ClientBean implements ClientBeanLocal {
         PilgrimMaster pilgrim = em.find(PilgrimMaster.class, ptimeslot.getPilgrim().getPilgrimId());
         Collection<PilgrimTimeslots> pilgrimTimeslots = pilgrim.getPilgrimTimeslotsCollection();
 
-        if(pilgrimTimeslots.contains(ptimeslot)){
+        if (pilgrimTimeslots.contains(ptimeslot)) {
             pilgrimTimeslots.remove(ptimeslot);
             em.remove(ptimeslot);
         }
@@ -264,11 +275,14 @@ public class ClientBean implements ClientBeanLocal {
     public void addPilgrimTimeslotsDetails(PilgrimTimeslotsDetails timeslotsdetails) {
         PilgrimTimeslots timeslots = em.find(PilgrimTimeslots.class, timeslotsdetails.getTimeslots().getTimeslotsId());
         Collection<PilgrimTimeslotsDetails> slotsdetails = timeslots.getPilgrimTimeslotsDetailsCollection();
-        
+
         timeslotsdetails.setTimeslots(timeslots);
-        
+
         slotsdetails.add(timeslotsdetails);
         timeslots.setPilgrimTimeslotsDetailsCollection(slotsdetails);
+        
+        timeslotsdetails.setCreatedDate(new Date());
+        timeslotsdetails.setUpdatedDate(new Date());
         
         em.persist(timeslotsdetails);
         em.merge(timeslots);
@@ -284,11 +298,11 @@ public class ClientBean implements ClientBeanLocal {
     @Override
     public void removePilgrimTimeslotsDetails(Integer timeslotsDetailsId) {
         PilgrimTimeslotsDetails timeslotsdetails = em.find(PilgrimTimeslotsDetails.class, timeslotsDetailsId);
-        
+
         PilgrimTimeslots timeslots = em.find(PilgrimTimeslots.class, timeslotsdetails.getTimeslots().getTimeslotsId());
         Collection<PilgrimTimeslotsDetails> slotsdetails = timeslots.getPilgrimTimeslotsDetailsCollection();
-        
-        if(slotsdetails.contains(timeslotsdetails)){
+
+        if (slotsdetails.contains(timeslotsdetails)) {
             slotsdetails.remove(timeslotsdetails);
             em.remove(timeslotsdetails);
         }
@@ -300,7 +314,7 @@ public class ClientBean implements ClientBeanLocal {
         Collection<PilgrimTimeslotsDetails> timeslotsdetails = timeslots.getPilgrimTimeslotsDetailsCollection();
         return timeslotsdetails;
     }
-    
+
     @Override
     public PilgrimTickets getTicketsByPTimeSlotsDetails(Integer ptimeslotsdetailsid) {
         return em.find(PilgrimTickets.class, ptimeslotsdetailsid);
@@ -331,46 +345,49 @@ public class ClientBean implements ClientBeanLocal {
     public void addPilgrimTicket(PilgrimTickets ptickets) {
         PilgrimMaster pilgrim = em.find(PilgrimMaster.class, ptickets.getPilgrim().getPilgrimId());
         Collection<PilgrimTickets> pilgrimTickets = pilgrim.getPilgrimTicketsCollection();
-        
+
         PilgrimTimeslotsDetails timeslotsdetails = em.find(PilgrimTimeslotsDetails.class, ptickets.getTimeslotsDetails().getTimeslotsDetailsId());
         Collection<PilgrimTickets> timeslotsTickets = timeslotsdetails.getPilgrimTicketsCollection();
-        
+
         ptickets.setPilgrim(pilgrim);
         ptickets.setTimeslotsDetails(timeslotsdetails);
-        
+
         pilgrimTickets.add(ptickets);
         pilgrim.setPilgrimTicketsCollection(pilgrimTickets);
-        
+
         timeslotsTickets.add(ptickets);
         timeslotsdetails.setPilgrimTicketsCollection(pilgrimTickets);
-        
+
+        ptickets.setCreatedDate(new Date());
+        ptickets.setUpdatedDate(new Date());
+
         em.persist(ptickets);
         em.merge(pilgrim);
     }
 
     @Override
     public void updatePilgrimTicket(PilgrimTickets ptickets) {
-        
+
         PilgrimMaster pilgrim = em.find(PilgrimMaster.class, ptickets.getPilgrim().getPilgrimId());
         PilgrimTimeslotsDetails timeslotsdetails = em.find(PilgrimTimeslotsDetails.class, ptickets.getTimeslotsDetails().getTimeslotsDetailsId());
-        
+
         ptickets.setPilgrim(pilgrim);
         ptickets.setTimeslotsDetails(timeslotsdetails);
-        
+
         em.merge(ptickets);
     }
 
     @Override
     public void removePilgrimTicket(Integer ticketId) {
         PilgrimTickets pticket = em.find(PilgrimTickets.class, ticketId);
-        
+
         PilgrimMaster pilgrim = em.find(PilgrimMaster.class, pticket.getPilgrim().getPilgrimId());
         Collection<PilgrimTickets> pilgrimTickets = pilgrim.getPilgrimTicketsCollection();
-        
+
         PilgrimTimeslotsDetails timeslotsdetails = em.find(PilgrimTimeslotsDetails.class, pticket.getTimeslotsDetails().getTimeslotsDetailsId());
         Collection<PilgrimTickets> timeslotsTickets = timeslotsdetails.getPilgrimTicketsCollection();
-        
-        if(pilgrimTickets.contains(pticket) && timeslotsTickets.contains(pticket)){
+
+        if (pilgrimTickets.contains(pticket) && timeslotsTickets.contains(pticket)) {
             pilgrimTickets.remove(pticket);
             timeslotsTickets.remove(pticket);
             em.remove(pticket);
@@ -388,12 +405,12 @@ public class ClientBean implements ClientBeanLocal {
     public void addAdvertisement(AdvertisementMaster advertisement) {
         PilgrimMaster pilgrim = em.find(PilgrimMaster.class, advertisement.getPilgrim().getPilgrimId());
         Collection<AdvertisementMaster> pilgrimAds = pilgrim.getAdvertisementMasterCollection();
-        
+
         advertisement.setPilgrim(pilgrim);
-        
+
         pilgrimAds.add(advertisement);
         pilgrim.setAdvertisementMasterCollection(pilgrimAds);
-        
+
         em.persist(advertisement);
         em.merge(pilgrim);
     }
@@ -408,15 +425,15 @@ public class ClientBean implements ClientBeanLocal {
     @Override
     public void removeAdvertisement(Integer advertisementId) {
         AdvertisementMaster advertisement = em.find(AdvertisementMaster.class, advertisementId);
-        
+
         PilgrimMaster pilgrim = em.find(PilgrimMaster.class, advertisement.getPilgrim().getPilgrimId());
         Collection<AdvertisementMaster> pilgrimAds = pilgrim.getAdvertisementMasterCollection();
-        
-        if(pilgrimAds.contains(advertisement)){
+
+        if (pilgrimAds.contains(advertisement)) {
             pilgrimAds.remove(advertisement);
             em.remove(advertisement);
         }
-        
+
     }
 
     @Override
@@ -430,5 +447,16 @@ public class ClientBean implements ClientBeanLocal {
         PilgrimMaster pilgrim = em.find(PilgrimMaster.class, pilgrimid);
         Collection<AdvertisementMaster> pilgrimAds = pilgrim.getAdvertisementMasterCollection();
         return pilgrimAds;
+    }
+
+    @Override
+    public Collection<PilgrimMaster> getPilgrimsByUser(Integer userId) {
+        UserMaster user = em.find(UserMaster.class, userId);
+        return em.createNamedQuery("PilgrimMaster.findByUserId").setParameter("user", user).getResultList();
+    }
+    
+    @Override
+    public Collection<PilgrimTimeslotsDetails> getAllTimeslotsDetails() {
+        return em.createNamedQuery("PilgrimTimeslotsDetails.findAll").getResultList();
     }
 }

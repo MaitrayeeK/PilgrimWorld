@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -41,6 +40,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PilgrimMaster.findByStateCity", query = "SELECT p FROM PilgrimMaster p WHERE p.state = :state AND p.city = :city"),
     @NamedQuery(name = "PilgrimMaster.findByPilgrimImage", query = "SELECT p FROM PilgrimMaster p WHERE p.pilgrimImage = :pilgrimImage"),
     @NamedQuery(name = "PilgrimMaster.findByCreatedDate", query = "SELECT p FROM PilgrimMaster p WHERE p.createdDate = :createdDate"),
+    @NamedQuery(name = "PilgrimMaster.findByUserId", query = "SELECT p FROM PilgrimMaster p WHERE p.user = :user"),
     @NamedQuery(name = "PilgrimMaster.findByUpdatedDate", query = "SELECT p FROM PilgrimMaster p WHERE p.updatedDate = :updatedDate")})
 public class PilgrimMaster implements Serializable {
 
@@ -208,7 +208,7 @@ public class PilgrimMaster implements Serializable {
     public void setAdvertisementMasterCollection(Collection<AdvertisementMaster> advertisementMasterCollection) {
         this.advertisementMasterCollection = advertisementMasterCollection;
     }
-    
+
     @JsonbTransient
     public Collection<FeedbackMaster> getFeedbackMasterCollection() {
         return feedbackMasterCollection;
@@ -217,7 +217,7 @@ public class PilgrimMaster implements Serializable {
     public void setFeedbackMasterCollection(Collection<FeedbackMaster> feedbackMasterCollection) {
         this.feedbackMasterCollection = feedbackMasterCollection;
     }
-    
+
     @JsonbTransient
     public Collection<CommissionMaster> getCommissionMasterCollection() {
         return commissionMasterCollection;
@@ -226,7 +226,7 @@ public class PilgrimMaster implements Serializable {
     public void setCommissionMasterCollection(Collection<CommissionMaster> commissionMasterCollection) {
         this.commissionMasterCollection = commissionMasterCollection;
     }
-    
+
     @JsonbTransient
     public Collection<PilgrimTickets> getPilgrimTicketsCollection() {
         return pilgrimTicketsCollection;
@@ -235,7 +235,7 @@ public class PilgrimMaster implements Serializable {
     public void setPilgrimTicketsCollection(Collection<PilgrimTickets> pilgrimTicketsCollection) {
         this.pilgrimTicketsCollection = pilgrimTicketsCollection;
     }
-    
+
     @JsonbTransient
     public Collection<PaymentMaster> getPaymentMasterCollection() {
         return paymentMasterCollection;
@@ -244,7 +244,7 @@ public class PilgrimMaster implements Serializable {
     public void setPaymentMasterCollection(Collection<PaymentMaster> paymentMasterCollection) {
         this.paymentMasterCollection = paymentMasterCollection;
     }
-    
+
     @JsonbTransient
     public Collection<PilgrimRooms> getPilgrimRoomsCollection() {
         return pilgrimRoomsCollection;
@@ -253,7 +253,7 @@ public class PilgrimMaster implements Serializable {
     public void setPilgrimRoomsCollection(Collection<PilgrimRooms> pilgrimRoomsCollection) {
         this.pilgrimRoomsCollection = pilgrimRoomsCollection;
     }
-    
+
     @JsonbTransient
     public Collection<BookingMaster> getBookingMasterCollection() {
         return bookingMasterCollection;
@@ -262,7 +262,7 @@ public class PilgrimMaster implements Serializable {
     public void setBookingMasterCollection(Collection<BookingMaster> bookingMasterCollection) {
         this.bookingMasterCollection = bookingMasterCollection;
     }
-    
+
     @JsonbTransient
     public Collection<PilgrimImages> getPilgrimImagesCollection() {
         return pilgrimImagesCollection;
