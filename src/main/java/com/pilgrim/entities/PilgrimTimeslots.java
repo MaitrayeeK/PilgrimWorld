@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.pilgrim.entities;
 
 import java.io.Serializable;
@@ -36,6 +35,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "PilgrimTimeslots.findAll", query = "SELECT p FROM PilgrimTimeslots p"),
     @NamedQuery(name = "PilgrimTimeslots.findByTimeslotsId", query = "SELECT p FROM PilgrimTimeslots p WHERE p.timeslotsId = :timeslotsId"),
     @NamedQuery(name = "PilgrimTimeslots.findByCreatedDate", query = "SELECT p FROM PilgrimTimeslots p WHERE p.createdDate = :createdDate"),
+    @NamedQuery(name = "PilgrimTimeslots.findByPilgrim", query = "SELECT p FROM PilgrimTimeslots p WHERE p.pilgrim = :pilgrim"),
     @NamedQuery(name = "PilgrimTimeslots.findByUpdatedDate", query = "SELECT p FROM PilgrimTimeslots p WHERE p.updatedDate = :updatedDate")})
 public class PilgrimTimeslots implements Serializable {
 

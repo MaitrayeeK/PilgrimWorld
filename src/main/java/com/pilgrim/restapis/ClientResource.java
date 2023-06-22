@@ -735,4 +735,38 @@ public class ClientResource {
         }
         return response;
     }
+    
+    @GET
+    @Path("pilgrims/getByUser/{userid}")
+    @Produces("application/json")
+    public Response<Collection<PilgrimMaster>> getPilgrimsByUser(@PathParam("userid") Integer userid) {
+        Response response = new Response();
+        try {
+            response.setResult(clientBeanLocal.getPilgrimsByUser(userid));
+            response.setMessage("Pilgrims fetched successfully!");
+            response.setStatus(true);
+        } catch (Exception e) {
+            response.setResult(e);
+            response.setMessage("Failed while fetching Pilgrims!");
+            response.setStatus(false);
+        }
+        return response;
+    }
+    
+    @GET
+    @Path("pilgrims/getAllTimeslotsdetails")
+    @Produces("application/json")
+    public Response<Collection<PilgrimTimeslotsDetails>> getAllTimeslotsDetails() {
+        Response response = new Response();
+        try {
+            response.setResult(clientBeanLocal.getAllTimeslotsDetails());
+            response.setMessage("Pilgrims fetched successfully!");
+            response.setStatus(true);
+        } catch (Exception e) {
+            response.setResult(e);
+            response.setMessage("Failed while fetching Pilgrims!");
+            response.setStatus(false);
+        }
+        return response;
+    }
 }
