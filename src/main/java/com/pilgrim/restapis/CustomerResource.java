@@ -143,7 +143,7 @@ public class CustomerResource {
         }
         return response;
     }
-
+   
     @GET
     @Path("bookings")
     @Produces("application/json")
@@ -376,6 +376,23 @@ public class CustomerResource {
         } catch (Exception e) {
             response.setResult(e);
             response.setMessage("Failed while deleting Payment!");
+            response.setStatus(false);
+        }
+        return response;
+    }
+    
+    @GET
+    @Path("payments/getRevenue")
+    @Produces("application/json")
+    public Response<Float> getPaymentRevenue() {
+        Response response = new Response();
+        try {
+            response.setResult(customerBeanLocal.getPaymentRevenue());
+            response.setMessage("Payment revenue fetched successfully!");
+            response.setStatus(true);
+        } catch (Exception e) {
+            response.setResult(e);
+            response.setMessage("Failed while fetching Payment revenue!");
             response.setStatus(false);
         }
         return response;

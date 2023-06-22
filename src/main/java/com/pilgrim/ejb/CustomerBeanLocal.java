@@ -44,4 +44,5 @@ public interface CustomerBeanLocal {
     Collection<PaymentMaster> getPaymentsByUser(Integer userId);
     Collection<PaymentMaster> getPaymentsByPilgrim(Integer pilgrimId);
     Collection<PaymentMaster> getPaymentsByBooking(Integer bookingId);
+    Float getPaymentRevenue();
 }
