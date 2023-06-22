@@ -309,4 +309,14 @@ public class CustomerBean implements CustomerBeanLocal {
         Collection<PaymentMaster> bookingPayments = booking.getPaymentMasterCollection();
         return bookingPayments;
     }
+    
+    @Override
+    public Float getPaymentRevenue() {
+        Collection<PaymentMaster> payments = em.createNamedQuery("PaymentMaster.findAll").getResultList();
+        Float revenue = 0f;
+        for(PaymentMaster p : payments) {
+            revenue += p.getTotalPrice();
+        }
+        return revenue;
+    }
 }
